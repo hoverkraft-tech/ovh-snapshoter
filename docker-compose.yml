@@ -1,0 +1,16 @@
+services:
+  ovh-snapshoter:
+    image: ovh-snapshoter
+    build: .
+    environment:
+      OS_AUTH_URL: https://auth.cloud.ovh.net/v3
+      OS_IDENTITY_API_VERSION: 3
+      OS_PASSWORD: password
+      OS_PROJECT_DOMAIN_NAME: Default
+      OS_PROJECT_ID: project_id
+      OS_REGION_NAME: GRA11
+      OS_TENANT_ID: tenant_id
+      OS_TENANT_NAME: tenant_name
+      OS_USER_DOMAIN_NAME: Default
+      OS_USERNAME: username
+      OS_VOLUMES: volume_id1,volume_id2
