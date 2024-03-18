@@ -26,6 +26,7 @@ jobs:
       issues: read
       packages: write
       pull-requests: read
+    secrets: inherit
 
   update_release_draft:
     name: Draft a new release
