@@ -1,0 +1,108 @@
+name: Internal - Common Continuous Integration tasks
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Tag Version (semver - x.x.x)"
+        type: string
+        required: false
+    outputs:
+      built-images:
+        value: ${{ jobs.docker-build-images.outputs.built-images }}
+
+jobs:
+
+  shellcheck:
+    name: "Shell: Lint Shell Scripts"
+    id: shellcheck
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Lint Shell Scripts
+        run: |
+          shellcheck --shell=bash entrypoint.sh
+
+  hadolint:
+    name: "Docker: Lint Dockerfile"
+    id: hadolint
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Lint Dockerfile
+        run: |
+          docker run --rm -i hadolint/hadolint < Dockerfile
+
+  docker-build-images:
+    name: "Docker: Build Images"
+    needs:
+      - shellcheck
+      - hadolint
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.15.0
+    permissions:
+      actions: write
+      contents: read
+      id-token: write
+      issues: read
+      packages: write
+      pull-requests: read
+    secrets:
+      oci-registry-password: ${{ secrets.OCI_REGISTRY_PASSWORD }}
+    with:
+      runs-on: '["self-hosted"]'
+      oci-registry: ${{ vars.OCI_REGISTRY }}
+      oci-registry-username: ${{ vars.OCI_REGISTRY_USERNAME }}
+      images: |
+        [{
+          "repository": ${{ vars.OCI_REGISTRY_IMAGE_REPOSITORY }},
+          "tag": "${{ inputs.tag }}",
+          "dockerfile": "./Dockerfile",
+          "platforms": [
+            "linux/amd64",
+            "linux/arm64"
+          ]
+        }]
+
+  chart-testing:
+    name: "Helm: Chart Testing"
+    runs-on: self-hosted
+    needs:
+      - docker-build-images
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install tools with asdf
+        uses: asdf-vm/actions/install@v3
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run chart-testing (lint)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint --target-branch ${{ github.event.repository.default_branch }}
+      - name: Create kind cluster
+        if: steps.list-changed.outputs.changed == 'true'
+        uses: helm/kind-action@v1.9.0
+      - name: Run chart-testing (install)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          ct install \
+            --target-branch ${{ github.event.repository.default_branch }} \
+            --helm-extra-args "--set image.tag=${{ needs.docker-build-images.outputs.built-images[0].tag }} --wait"
+      - name: show pods
+        id: k-get-pods
+        run: |
+          sleep 10
+          kubectl get cronjob -n default
+          kubectl create job --from=cronjob/ovh-snapshoter -n default ovh-snapshoter-job
+          sleep 10
+          kubectl get pods -n default

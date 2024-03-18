@@ -1,0 +1,77 @@
+name: 🚀 Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check-branches:
+    name: Check branches
+    runs-on: self-hosted
+    steps:
+      - name: Check branch
+        run: |
+          if [[ "${{ github.ref_name }}" != "${{ github.event.repository.default_branch }}" ]]; then
+            echo "This action can only be run on the ${{ github.event.repository.default_branch }} branch"
+            exit 1
+          fi
+
+  ci:
+    needs: check-branches
+    name: Continuous Integration
+    uses: ./.github/workflows/__shared-ci.yml
+    permissions:
+      contents: read
+      id-token: write
+      issues: read
+      packages: write
+      pull-requests: read
+
+  update_release_draft:
+    name: Draft a new release
+    # we want to publish a new tag only if ci succeeds
+    needs: ci
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: self-hosted
+    steps:
+      - id: update_release_draft
+        uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          publish: true
+          disable-autolabeler: true
+
+  helm-push:
+    name: "Helm: push chart to OCI registry"
+    needs: ci
+    runs-on: self-hosted
+    steps:
+      # Get a local copy of the code
+      - uses: actions/checkout@v4
+
+      # install tools with asdf
+      - name: 📦 Install tools with asdf
+        uses: asdf-vm/actions/install@v3
+
+      - name: 🔒 Login to OCI registry
+        run: |
+          echo "+ login to OCI registry"
+          helm registry login ${vars.OCI_REGISTRY} -u "${secrets.OCI_REGISTRY_USERNAME}" -p "${secrets.OCI_REGISTRY_PASSWORD}"
+
+      # Push the chart
+      - name: ⚓ Push Helm Chart to OCI registry
+        uses: hoverkraft-tech/helm-push@v5.0.0
+        with:
+          useOCIRegistry: true
+          username: ${{ secrets.OCI_REGISTRY_USERNAME }}
+          # NOTE: access-token is the password for OCI registry
+          #       cf https://github.com/bsord/helm-push/blob/5ec3320fb5720a0a5aa210d871999f2b836f2d97/entrypoint.sh#L37
+          access-token: ${{ secrets.OCI_REGISTRY_PASSWORD }}
+          registry-url: oci://${vars.OCI_REGISTRY}/${vars.OCI_REGISTRY_CHART_REPOSITORY}
+          chart-folder: helm/chart
+          force: true
+          update-dependencies: true
+          version: ${{ github.event.inputs.tagVersion }}
+          appVersion: ${{ github.event.inputs.tagVersion }}
