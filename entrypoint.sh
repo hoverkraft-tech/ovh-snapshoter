@@ -18,16 +18,19 @@ check_var() {
 snapshot-metadata() {
   local key="$1"
   local snapshot="$2"
+  # shellcheck disable=SC2086
   cinder $CINDER_OPTS snapshot-metadata-show "$snapshot" | grep -E "^\| $key " | awk '{print $4}'
 }
 
 snapshot-mark-for-cleanup() {
   local snapshot="$1"
+  # shellcheck disable=SC2086
   cinder $CINDER_OPTS snapshot-metadata $snapshot set cleanup=true
 }
 
 cleanup-pre() {
   echo "removing all existing snapshots"
+  # shellcheck disable=SC2086
   for snap in $(cinder $CINDER_OPTS snapshot-list --metadata createdBy=ovh-snapshoter \
                   | grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' \
                   | awk '{print $2}' ); do
@@ -43,6 +46,7 @@ cleanup-pre() {
 
 cleanup-post() {
   echo "removing snapshots marked for cleanup"
+  # shellcheck disable=SC2086
   for snap in $(cinder $CINDER_OPTS snapshot-list --metadata cleanup=true \
                   | grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' \
                   | awk '{print $2}' ); do
@@ -73,13 +77,14 @@ if [ "$CLEANUP" = "true" ]; then
   cleanup-pre
 fi
 
-for vol in $(echo $OS_VOLUMES | tr ',' '\n'); do
+for vol in $(echo "$OS_VOLUMES" | tr ',' '\n'); do
   now=$(date +%Y%m%d%H%M%S)
   if [ "$DRY_RUN" = "true" ]; then
     echo "would create snapshot ${now}-$vol"
     continue
   fi
   echo "snapshoting vol $vol"
+  # shellcheck disable=SC2086
   cinder snapshot-create \
     --force=True \
     --metadata createdBy=ovh-snapshoter snapshotOf=$vol snapshotedAt=${now} \
