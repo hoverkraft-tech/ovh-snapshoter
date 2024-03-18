@@ -60,7 +60,11 @@ jobs:
       - name: 🔒 Login to OCI registry
         run: |
           echo "+ login to OCI registry"
-          helm registry login ${vars.OCI_REGISTRY} -u "${vars.OCI_REGISTRY_USERNAME}" -p "${secrets.OCI_REGISTRY_PASSWORD}"
+          helm registry login ${OCI_REGISTRY} -u "${OCI_REGISTRY_USERNAME}" -p "${OCI_REGISTRY_PASSWORD}"
+        env:
+          OCI_REGISTRY: ${{ vars.OCI_REGISTRY }}
+          OCI_REGISTRY_USERNAME: ${{ vars.OCI_REGISTRY_USERNAME }}
+          OCI_REGISTRY_PASSWORD: ${{ secrets.OCI_REGISTRY_PASSWORD }}
 
       # Push the chart
       - name: ⚓ Push Helm Chart to OCI registry
