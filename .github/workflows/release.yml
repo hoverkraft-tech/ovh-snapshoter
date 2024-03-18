@@ -58,14 +58,14 @@ jobs:
       - name: 🔒 Login to OCI registry
         run: |
           echo "+ login to OCI registry"
-          helm registry login ${vars.OCI_REGISTRY} -u "${secrets.OCI_REGISTRY_USERNAME}" -p "${secrets.OCI_REGISTRY_PASSWORD}"
+          helm registry login ${vars.OCI_REGISTRY} -u "${vars.OCI_REGISTRY_USERNAME}" -p "${secrets.OCI_REGISTRY_PASSWORD}"
 
       # Push the chart
       - name: ⚓ Push Helm Chart to OCI registry
         uses: hoverkraft-tech/helm-push@v5.0.0
         with:
           useOCIRegistry: true
-          username: ${{ secrets.OCI_REGISTRY_USERNAME }}
+          username: ${{ vars.OCI_REGISTRY_USERNAME }}
           # NOTE: access-token is the password for OCI registry
           #       cf https://github.com/bsord/helm-push/blob/5ec3320fb5720a0a5aa210d871999f2b836f2d97/entrypoint.sh#L37
           access-token: ${{ secrets.OCI_REGISTRY_PASSWORD }}
