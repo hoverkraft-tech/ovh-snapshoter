@@ -15,7 +15,6 @@ jobs:
 
   shellcheck:
     name: "Shell: Lint Shell Scripts"
-    id: shellcheck
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -26,7 +25,6 @@ jobs:
 
   hadolint:
     name: "Docker: Lint Dockerfile"
-    id: hadolint
     runs-on: self-hosted
     steps:
       - name: Checkout
