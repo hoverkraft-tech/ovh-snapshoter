@@ -76,6 +76,9 @@ jobs:
           fetch-depth: 0
       - name: Install tools with asdf
         uses: asdf-vm/actions/install@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.6.1
       - name: Run chart-testing (list-changed)
