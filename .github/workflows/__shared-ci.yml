@@ -18,7 +18,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Lint Shell Scripts
         run: |
           shellcheck --shell=bash entrypoint.sh
@@ -28,7 +28,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Lint Dockerfile
         run: |
           docker run --rm -i hadolint/hadolint < Dockerfile
@@ -38,6 +38,7 @@ jobs:
     needs:
       - shellcheck
       - hadolint
+    # FIXME: use a released version of the action when it's ready
     uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@feat/extra-buildx-cache-directives
     permissions:
       actions: write
@@ -101,7 +102,7 @@ jobs:
             --target-branch ${{ github.event.repository.default_branch }} \
             --helm-extra-args "--set image.tag=${{ needs.docker-build-images.outputs.built-images[0].tag }} --wait"
       - name: show pods
-        id: k-get-pods
+        if: steps.list-changed.outputs.changed == 'true'
         run: |
           sleep 10
           kubectl get cronjob -n default
