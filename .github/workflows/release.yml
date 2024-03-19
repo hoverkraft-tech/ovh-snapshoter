@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   check-branches:
     name: Check branches
     runs-on: self-hosted
@@ -37,6 +38,7 @@ jobs:
       pull-requests: write
     runs-on: self-hosted
     steps:
+      # create a new release
       - id: update_release_draft
         uses: release-drafter/release-drafter@v6
         env:
@@ -45,9 +47,18 @@ jobs:
           publish: true
           disable-autolabeler: true
 
+      - id: get_latest_release
+        run: |
+          LATEST_RELEASE=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/releases/latest" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            | jq -r .tag_name)
+          echo "LATEST_RELEASE=$LATEST_RELEASE" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   helm-push:
     name: "Helm: push chart to OCI registry"
-    needs: ci
+    needs: update_release_draft
     runs-on: self-hosted
     steps:
       # Get a local copy of the code
@@ -79,8 +90,8 @@ jobs:
           chart-folder: helm/chart
           force: true
           update-dependencies: true
-          version: ${{ github.event.inputs.tagVersion }}
-          appVersion: ${{ github.event.inputs.tagVersion }}
+          version: ${{ env.LATEST_RELEASE }}
+          appVersion: ${{ env.LATEST_RELEASE }}
         env:
           OCI_REGISTRY: ${{ vars.OCI_REGISTRY }}
           OCI_REGISTRY_USERNAME: ${{ vars.OCI_REGISTRY_USERNAME }}
