@@ -18,12 +18,14 @@ fullnameOverride: ""
 config:
   osAuthUrl: https://auth.cloud.ovh.net/v3
   osIdentityApiVersion: 3
+  osPassword: ""
   osProjectDomainName: Default
   osProjectId: ""
   osRegionName: GRA11
   osTenantId: ""
   osTenantName: ""
   osUserDomainName: Default
+  osUsername: ""
   osVolumes: []
 
 # schedule for the cronjob (if enabled)
