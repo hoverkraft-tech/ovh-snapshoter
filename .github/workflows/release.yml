@@ -71,11 +71,11 @@ jobs:
         uses: hoverkraft-tech/helm-push@v5.0.0
         with:
           useOCIRegistry: true
-          username: ${OCI_REGISTRY_USERNAME}
+          username: ${{ env.OCI_REGISTRY_USERNAME }}
           # NOTE: access-token is the password for OCI registry
           #       cf https://github.com/bsord/helm-push/blob/5ec3320fb5720a0a5aa210d871999f2b836f2d97/entrypoint.sh#L37
-          access-token: ${OCI_REGISTRY_PASSWORD}
-          registry-url: oci://${OCI_REGISTRY}/${OCI_REGISTRY_CHART_REPOSITORY}
+          access-token: ${{ env.OCI_REGISTRY_PASSWORD }}
+          registry-url: oci://${{ env.OCI_REGISTRY }}/${{ env.OCI_REGISTRY_CHART_REPOSITORY }}
           chart-folder: helm/chart
           force: true
           update-dependencies: true
@@ -86,4 +86,3 @@ jobs:
           OCI_REGISTRY_USERNAME: ${{ vars.OCI_REGISTRY_USERNAME }}
           OCI_REGISTRY_PASSWORD: ${{ secrets.OCI_REGISTRY_PASSWORD }}
           OCI_REGISTRY_CHART_REPOSITORY: ${{ vars.OCI_REGISTRY_CHART_REPOSITORY }}
-
