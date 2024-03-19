@@ -55,7 +55,7 @@ jobs:
       oci-registry-username: ${{ vars.OCI_REGISTRY_USERNAME }}
       images: |
         [{
-          "name": "ovh-snapshoter",
+          "name": "app",
           "repository": "${{ vars.OCI_REGISTRY_IMAGE_REPOSITORY }}",
           "tag": "${{ inputs.tag }}",
           "dockerfile": "./Dockerfile",
