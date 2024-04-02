@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   registry: harbor.hoverkraft.cloud
-  repository: ovh-snapshoter
+  repository: ovh-snapshoter/app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -16,6 +16,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 config:
+  cleanup: "true"
+  dryRun: "false"
   osAuthUrl: https://auth.cloud.ovh.net/v3
   osIdentityApiVersion: 3
   osPassword: ""
@@ -93,8 +95,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-# autoscaling:
-#   enabled: false
+autoscaling:
+  enabled: false
 #   minReplicas: 1
 #   maxReplicas: 100
 #   targetCPUUtilizationPercentage: 80

@@ -4,6 +4,8 @@ metadata:
   name: {{ include "chart.fullname" . }}
 data:
   {{- with .Values.config }}
+  CLEANUP: {{ .cleanup | default "false" | quote }}
+  DRY_RUN: {{ .dryRun | default "false" | quote }}
   OS_AUTH_URL: {{ .osAuthUrl | quote }}
   OS_IDENTITY_API_VERSION: {{ .osIdentityApiVersion | quote }}
   OS_PROJECT_DOMAIN_NAME: {{ .osProjectDomainName | quote }}
