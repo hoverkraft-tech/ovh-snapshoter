@@ -30,7 +30,7 @@ oslo.serialization==5.4.0
 oslo.utils==7.1.0
 packaging==24.0
 pbr==6.0.0
-platformdirs==4.2.0
+platformdirs==4.2.2
 prettytable==3.10.0
 pycparser==2.21
 pyparsing==3.1.2
