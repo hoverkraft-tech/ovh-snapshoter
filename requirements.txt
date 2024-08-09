@@ -1,7 +1,7 @@
 attrs==23.2.0
 autopage==0.5.2
 certifi==2024.2.2
-cffi==1.16.0
+cffi==1.17.0
 charset-normalizer==3.3.2
 cliff==4.6.0
 cmd2==2.4.3
