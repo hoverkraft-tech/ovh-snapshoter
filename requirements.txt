@@ -24,7 +24,7 @@ netifaces==0.11.0
 openstacksdk==3.0.0
 os-service-types==1.7.0
 osc-lib==3.0.1
-oslo.config==9.4.0
+oslo.config==9.6.0
 oslo.i18n==6.3.0
 oslo.serialization==5.4.0
 oslo.utils==7.1.0
