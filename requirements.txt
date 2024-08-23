@@ -53,6 +53,6 @@ stevedore==5.2.0
 tzdata==2024.1
 urllib3==2.2.1
 wcwidth==0.2.13
-wheel==0.43.0
+wheel==0.44.0
 wrapt==1.16.0
 zipp==3.18.1
