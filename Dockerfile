@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bullseye as builder
+FROM python:3.13-slim-bullseye as builder
 
 # hadolint ignore=DL3008
 RUN set -eux; export DEBIAN_FRONTEND=noninteractive; \
@@ -12,7 +12,7 @@ COPY requirements.txt requirements.txt
 RUN --mount=type=cache,target=~/.cache/pip \
   pip install --user -r requirements.txt
 
-FROM python:3.12-slim-bullseye
+FROM python:3.13-slim-bullseye
 
 ENV PYTHONUNBUFFERED="1"
 ENV OS_AUTH_URL: https://auth.cloud.ovh.net/v3/
