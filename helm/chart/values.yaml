@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  registry: harbor.hoverkraft.cloud
-  repository: ovh-snapshoter/app
+  registry: ghcr.io
+  repository: hoverkraft-tech/ovh-snapshoter/app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
