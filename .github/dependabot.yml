@@ -4,8 +4,6 @@ updates:
 
   - package-ecosystem: "github-actions"
     directories:
-      - "/"
-      - "/.github/"
       - "/.github/workflows/"
     open-pull-requests-limit: 3
     labels:
