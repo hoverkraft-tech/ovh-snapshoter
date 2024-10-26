@@ -95,4 +95,4 @@ jobs:
           OCI_REGISTRY: ghcr.io
           OCI_REGISTRY_USERNAME: ${{ github.actor }}
           OCI_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          OCI_REGISTRY_CHART_REPOSITORY: ${{ github.repository }}
+          OCI_REGISTRY_CHART_REPOSITORY: 'charts'
