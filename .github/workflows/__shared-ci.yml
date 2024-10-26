@@ -12,6 +12,7 @@ on:
         value: ${{ jobs.docker-build-images.outputs.built-images }}
 
 jobs:
+
   init:
     name: "prepare environment for jobs"
     runs-on: self-hosted
@@ -79,7 +80,7 @@ jobs:
         }]
 
   chart-testing:
-    name: "Helm: Chart Testing"
+    name: "Tests: helm chart"
     runs-on: self-hosted
     needs:
       - init
@@ -114,7 +115,7 @@ jobs:
         run: |
           ct install \
             --target-branch ${{ github.event.repository.default_branch }} \
-            --helm-extra-args "--set image.tag=${{ needs.docker-build-images.outputs.built-images[0].tag }} --wait"
+            --helm-extra-args "--set image.tag=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }} --wait"
       - name: show pods
         if: steps.list-changed.outputs.changed == 'true'
         run: |
@@ -123,3 +124,41 @@ jobs:
           kubectl create job --from=cronjob/ovh-snapshoter -n default ovh-snapshoter-job
           sleep 10
           kubectl get pods -n default
+
+  app-testing:
+    name: "Tests: application"
+    runs-on: self-hosted
+    needs:
+      - init
+      - docker-build-images
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run tests
+        run: |
+          echo "OS_PASSWORD length: ${#OS_PASSWORD}"
+          echo "OS_PROJECT_ID length: ${#OS_PROJECT_ID}"
+          echo "OS_REGION_NAME length: ${#OS_REGION_NAME}"
+          echo "OS_TENANT_ID length: ${#OS_TENANT_ID}"
+          echo "OS_TENANT_NAME length: ${#OS_TENANT_NAME}"
+          echo "OS_USERNAME length: ${#OS_USERNAME}"
+          echo "OS_VOLUMES length: ${#OS_VOLUMES}"
+          docker run --rm -i  \
+            -e DRY_RUN=true   \
+            -e OS_PASSWORD    \
+            -e OS_PROJECT_ID  \
+            -e OS_REGION_NAME \
+            -e OS_TENANT_ID   \
+            -e OS_TENANT_NAME \
+            -e OS_USERNAME    \
+            -e OS_VOLUMES     \
+            ${IMAGE}
+        env:
+          OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+          OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+          OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
+          OS_TENANT_ID: ${{ secrets.OS_TENANT_ID }}
+          OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
+          OS_USERNAME: ${{ secrets.OS_USERNAME }}
+          OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
+          IMAGE: ghcr.io/${{ github.repository }}/app:${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }}
