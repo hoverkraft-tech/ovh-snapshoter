@@ -68,9 +68,9 @@ jobs:
           echo "+ login to OCI registry"
           helm registry login ${OCI_REGISTRY} -u "${OCI_REGISTRY_USERNAME}" -p "${OCI_REGISTRY_PASSWORD}"
         env:
-          OCI_REGISTRY: ${{ vars.OCI_REGISTRY }}
-          OCI_REGISTRY_USERNAME: ${{ vars.OCI_REGISTRY_USERNAME }}
-          OCI_REGISTRY_PASSWORD: ${{ secrets.OCI_REGISTRY_PASSWORD }}
+          OCI_REGISTRY: ghcr.io
+          OCI_REGISTRY_USERNAME: ${{ github.actor }}
+          OCI_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
       # Push the chart
       - name: ⚓ Push Helm Chart to OCI registry
@@ -88,7 +88,7 @@ jobs:
           version: ${{ needs.update_release_draft.outputs.latestRelease }}
           appVersion: ${{ needs.update_release_draft.outputs.latestRelease }}
         env:
-          OCI_REGISTRY: ${{ vars.OCI_REGISTRY }}
-          OCI_REGISTRY_USERNAME: ${{ vars.OCI_REGISTRY_USERNAME }}
-          OCI_REGISTRY_PASSWORD: ${{ secrets.OCI_REGISTRY_PASSWORD }}
-          OCI_REGISTRY_CHART_REPOSITORY: ${{ vars.OCI_REGISTRY_CHART_REPOSITORY }}
+          OCI_REGISTRY: ghcr.io
+          OCI_REGISTRY_USERNAME: ${{ github.actor }}
+          OCI_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          OCI_REGISTRY_CHART_REPOSITORY: ${{ github.repository }}

@@ -38,8 +38,7 @@ jobs:
     needs:
       - shellcheck
       - hadolint
-    # FIXME: use a released version of the action when it's ready
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@feat/extra-buildx-cache-directives
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.18.0
     permissions:
       actions: write
       contents: read
@@ -48,15 +47,15 @@ jobs:
       packages: write
       pull-requests: read
     secrets:
-      oci-registry-password: ${{ secrets.OCI_REGISTRY_PASSWORD }}
+      oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
     with:
       runs-on: '["self-hosted"]'
-      oci-registry: ${{ vars.OCI_REGISTRY }}
-      oci-registry-username: ${{ vars.OCI_REGISTRY_USERNAME }}
+      oci-registry: ghcr.io
+      oci-registry-username: ${{ github.actor }}
       images: |
         [{
           "name": "app",
-          "repository": "${{ vars.OCI_REGISTRY_IMAGE_REPOSITORY }}",
+          "repository": "${{ github.repository }}",
           "tag": "${{ inputs.tag }}",
           "dockerfile": "./Dockerfile",
           "platforms": [
