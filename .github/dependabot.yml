@@ -7,7 +7,7 @@ updates:
       - "/"
     open-pull-requests-limit: 3
     labels:
-      - "github-actions"
+      - "github_actions"
     schedule:
       interval: "weekly"
       day: friday
