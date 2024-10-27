@@ -37,6 +37,8 @@ config:
 You can get all of them (except `osVolumes`) by downloading an horizon config file from OVH UI
 `osVolumes` is a list of volume ids that you want to backup on cronjob run (you can get them from OVH public cloud UI or horizon)
 
+For full documentation check [here](./helm/chart/README.md)
+
 ## contributing
 
 - Of course PRs and suggestions are welcome
