@@ -2,3 +2,4 @@ helm 3.14.3
 kubectl 1.30.5
 helm-ct 3.10.1
 kubeconform 0.6.4
+helm-docs 1.14.2
