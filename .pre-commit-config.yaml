@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: check-case-conflict
+      # - id: check-json
+      - id: check-executables-have-shebangs
+      - id: check-symlinks
+      - id: check-yaml
+        exclude: ^helm/
+      - id: detect-aws-credentials
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.24
+    hooks:
+      - id: helmlint
+
+  - repo: https://github.com/jtyr/kubeconform-helm
+    rev: v0.1.17
+    hooks:
+      - id: kubeconform-helm
+
+  - repo: https://github.com/norwoodj/helm-docs
+    rev:  v1.14.2
+    hooks:
+      - id: helm-docs
+        args:
+          # Make the tool search for charts only under the `charts` directory
+          - --chart-search-root=helm/chart
