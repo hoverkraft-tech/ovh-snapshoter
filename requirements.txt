@@ -27,7 +27,7 @@ osc-lib==3.0.1
 oslo.config==9.4.0
 oslo.i18n==6.3.0
 oslo.serialization==5.4.0
-oslo.utils==7.1.0
+oslo.utils==8.0.0
 packaging==24.0
 pbr==6.0.0
 platformdirs==4.2.0
