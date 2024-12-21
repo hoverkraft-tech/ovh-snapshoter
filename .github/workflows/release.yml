@@ -86,14 +86,22 @@ jobs:
           CHART_PATH: ${{github.workspace}}/helm/chart
           VERSION: ${{ needs.update_release_draft.outputs.latestRelease }}
 
-      - name: commit helm chart version changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-
       - name: update helm chart docs
         uses: shaybentk/helm-docs-action@v0.0.1
         with:
           working-dir: helm/chart
           git-push: "true"
+
+      - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@0.15.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: release-chart-${{ needs.update_release_draft.outputs.latestRelease }}
+          title: "ci: release chart ${{ needs.update_release_draft.outputs.latestRelease }}"
+          body: Release app and chart version ${{ needs.update_release_draft.outputs.latestRelease }}
+          commit-message: |
+            ci: release chart ${{ needs.update_release_draft.outputs.latestRelease }}
+
+            [skip ci]
 
       # Push the chart
       - name: push helm chart to OCI registry
