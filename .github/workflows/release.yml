@@ -62,6 +62,8 @@ jobs:
     steps:
       # Get a local copy of the code
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       # install tools with asdf
       - name: install tools with asdf
@@ -87,10 +89,10 @@ jobs:
           VERSION: ${{ needs.update_release_draft.outputs.latestRelease }}
 
       - name: update helm chart docs
-        uses: shaybentk/helm-docs-action@v0.0.1
+        uses: osisin/helm-docs-github-action@v1.3.5
         with:
-          working-dir: helm/chart
-          git-push: "true"
+          chart-search-root: helm/chart
+          git-push: "false"
 
       - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@0.15.0
         with:
