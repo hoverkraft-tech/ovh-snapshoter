@@ -1,5 +1,9 @@
 # ovh volume snapshoter
 
+[![Main - Continuous Integration](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/main-ci.yml/badge.svg)](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/main-ci.yml)
+[![🚀 Release](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/release.yml/badge.svg)](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/release.yml)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ovh-snapshoter)](https://artifacthub.io/packages/search?repo=ovh-snapshoter)
+
 A easy way to take snapshots of any cinder cinder volumes from docker or kubernetes
 
 Of course in kubernetes you can use CSI snapshot class to do the same but how to snapshot an external server for instance ?
