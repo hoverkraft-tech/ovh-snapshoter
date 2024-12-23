@@ -16,7 +16,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.24
+    rev: v0.1.25
     hooks:
       - id: helmlint
 
@@ -32,3 +32,9 @@ repos:
         args:
           # Make the tool search for charts only under the `charts` directory
           - --chart-search-root=helm/chart
+
+  - repo: https://github.com/losisin/helm-values-schema-json
+    rev: v1.6.4
+    hooks:
+      - id: helm-schema
+        args: ["-input", "values.yaml"]
