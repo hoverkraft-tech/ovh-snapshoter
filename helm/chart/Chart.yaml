@@ -6,7 +6,7 @@ sources:
 - https://github.com/hoverkraft-tech/ovh-snapshoter
 - https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml
 keywords: ['ovh', 'csi', 'snapshoter']
-icon:
+icon: "https://raw.githubusercontent.com/kubernetes/community/master/icons/png/resources/unlabeled/deploy-128.png"
 
 # A chart can be either an 'application' or a 'library' chart.
 #

@@ -1,0 +1,5 @@
+# Required
+input:
+  - helm/chart/values.yaml
+
+output: helm/chart/values.schema.json
