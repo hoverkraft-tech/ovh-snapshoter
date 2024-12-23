@@ -16,8 +16,9 @@ This is why this project was created. enjoy.
 ## install
 
 ```shell
-helm upgrade ovh-snapshoter oci://ghcr.io/hoverkraft-tech/ovh-snapshoter/charts \
+helm upgrade ovh-snapshoter oci://ghcr.io/hoverkraft-tech/charts/ovh-snapshoter \
   --install --create-namespace --namespace ovh-snapshoter \
+  --version 0.4.8 \
   --set config.osProjectId=xxxxxx --set config.osUsername=xxxxxx ....
 ```
 
