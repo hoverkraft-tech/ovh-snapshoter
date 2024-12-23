@@ -86,6 +86,7 @@ jobs:
       - init
       - shellcheck
       - hadolint
+      - docker-build-images
     steps:
       - name: Sign container images with a key
         uses: dodopizza/cosign-sign-push-action@0.0.7
