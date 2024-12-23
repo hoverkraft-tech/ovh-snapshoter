@@ -4,6 +4,20 @@
 
 A Helm chart for ovh-snapshoter
 
+**Homepage:** <https://github.com/hoverkraft-tech/ovh-snapshoter>
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Frederic Leger | <frederic@webofmars.com> |  |
+| Emilien Escalle | <emilien.escalle@escemi.com> |  |
+
+## Source Code
+
+* <https://github.com/hoverkraft-tech/ovh-snapshoter>
+* <https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml>
+
 ## Values
 
 | Key | Type | Default | Description |

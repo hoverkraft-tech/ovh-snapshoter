@@ -1,6 +1,12 @@
 apiVersion: v2
 name: ovh-snapshoter
 description: A Helm chart for ovh-snapshoter
+home: https://github.com/hoverkraft-tech/ovh-snapshoter
+sources:
+- https://github.com/hoverkraft-tech/ovh-snapshoter
+- https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml
+keywords: ['ovh', 'csi', 'snapshoter']
+icon:
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -22,3 +28,9 @@ version: 0.4.9
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: 0.4.9
+
+maintainers:
+  - name: Frederic Leger
+    email: frederic@webofmars.com
+  - name: Emilien Escalle
+    email: emilien.escalle@escemi.com
