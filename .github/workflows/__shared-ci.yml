@@ -79,6 +79,22 @@ jobs:
           ]
         }]
 
+  sign-images:
+    name: "Docker: Sign Images"
+    runs-on: self-hosted
+    needs:
+      - init
+      - shellcheck
+      - hadolint
+    steps:
+      - name: Sign container images with a key
+        uses: dodopizza/cosign-sign-push-action@0.0.7
+        with:
+          image-tags: ${{ steps.docker-build-images.outputs.built-image.tags }}
+          image-digest: ${{ steps.docker-build-images.outputs.built-image.digests[0] }}
+          cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          cosign-password: ''
+
   chart-testing:
     name: "Tests: helm chart"
     runs-on: self-hosted
