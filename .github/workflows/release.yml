@@ -62,8 +62,6 @@ jobs:
     steps:
       # Get a local copy of the code
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
 
       # install tools with asdf
       - name: install tools with asdf
@@ -109,6 +107,20 @@ jobs:
             ci: release chart ${{ needs.update_release_draft.outputs.latestRelease }}
 
             [skip ci]
+
+      - name: refresh main branch
+        run: |
+          set -x
+          echo "refreshing current branch"
+          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git fetch --all
+          git checkout ${BRANCH_NAME}
+          git pull --rebase
+          echo "commit id: $(git rev-parse --short HEAD)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
       # Push the chart
       - name: push helm chart to OCI registry
