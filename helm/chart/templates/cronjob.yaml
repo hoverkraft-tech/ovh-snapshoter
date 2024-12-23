@@ -13,9 +13,9 @@ spec:
           - name: snapshoter
             image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             envFrom:
-              configMapRef:
-                name: {{ include "chart.fullname" . }}
-              secretRef:
-                name: {{ include "chart.fullname" . }}
+              - configMapRef:
+                  name: {{ include "chart.fullname" . }}
+              - secretRef:
+                  name: {{ include "chart.fullname" . }}
           restartPolicy: OnFailure
 {{- end }}
