@@ -94,6 +94,11 @@ jobs:
           chart-search-root: helm/chart
           git-push: "false"
 
+      - name: update helm values schema json
+        uses: losisin/helm-values-schema-json-action@v1.3.0
+        with:
+          input: helm/chart/values.yaml
+
       - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@0.15.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
