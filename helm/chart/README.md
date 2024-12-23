@@ -2,7 +2,7 @@
 
 ![Version: 0.4.9](https://img.shields.io/badge/Version-0.4.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.4.9](https://img.shields.io/badge/AppVersion-0.4.9-informational?style=flat-square)
 
-A Helm chart for ovh-snapshoter
+A Helm chart for deploying ovh-snapshoter in your cluster. OVH snapshoter allows you to snapshot specific volumes likes external ones (databases, fil servers etc...) using the OVH cinder api.
 
 **Homepage:** <https://github.com/hoverkraft-tech/ovh-snapshoter>
 
