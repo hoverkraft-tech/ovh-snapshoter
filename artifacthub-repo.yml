@@ -15,3 +15,11 @@ owners:
     email: frederic@webofmars.com
   - name: Emilien Escalle
     email: emilien.escalle@escemi.com
+license: GPL-3
+logoUrl: google.com
+homeUrl: https://github.com/hoverkraft-tech/ovh-snapshoter
+links:
+- name: homepage
+  url: https://github.com/hoverkraft-tech/ovh-snapshoter
+- name: default-values
+  url: https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml
