@@ -1,0 +1,145 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "properties": {
+        "affinity": {
+            "properties": {},
+            "type": "object"
+        },
+        "autoscaling": {
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "config": {
+            "properties": {
+                "cleanup": {
+                    "type": "string"
+                },
+                "dryRun": {
+                    "type": "string"
+                },
+                "osAuthUrl": {
+                    "type": "string"
+                },
+                "osIdentityApiVersion": {
+                    "type": "integer"
+                },
+                "osPassword": {
+                    "type": "string"
+                },
+                "osProjectDomainName": {
+                    "type": "string"
+                },
+                "osProjectId": {
+                    "type": "string"
+                },
+                "osRegionName": {
+                    "type": "string"
+                },
+                "osTenantId": {
+                    "type": "string"
+                },
+                "osTenantName": {
+                    "type": "string"
+                },
+                "osUserDomainName": {
+                    "type": "string"
+                },
+                "osUsername": {
+                    "type": "string"
+                },
+                "osVolumes": {
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        },
+        "cronjob": {
+            "properties": {
+                "schedule": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "deployment": {
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "fullnameOverride": {
+            "type": "string"
+        },
+        "image": {
+            "properties": {
+                "pullPolicy": {
+                    "type": "string"
+                },
+                "registry": {
+                    "type": "string"
+                },
+                "repository": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "imagePullSecrets": {
+            "type": "array"
+        },
+        "nameOverride": {
+            "type": "string"
+        },
+        "nodeSelector": {
+            "properties": {},
+            "type": "object"
+        },
+        "podAnnotations": {
+            "properties": {},
+            "type": "object"
+        },
+        "podSecurityContext": {
+            "properties": {},
+            "type": "object"
+        },
+        "replicaCount": {
+            "type": "integer"
+        },
+        "resources": {
+            "properties": {},
+            "type": "object"
+        },
+        "securityContext": {
+            "properties": {},
+            "type": "object"
+        },
+        "serviceAccount": {
+            "properties": {
+                "annotations": {
+                    "properties": {},
+                    "type": "object"
+                },
+                "create": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "tolerations": {
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
