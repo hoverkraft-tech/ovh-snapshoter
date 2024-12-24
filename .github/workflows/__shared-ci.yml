@@ -109,13 +109,13 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const builtImages = JSON.parse(core.getInput('built-images', { required: true }));
+            const builtImages = JSON.parse(process.env.BUILT_IMAGES);
             const tags = builtImages.app.images.join(',');
             const digest = builtImages.app.digests[0];
             core.setOutput('tags', tags);
             core.setOutput('digest', digest);
         env:
-          built-images: ${{ needs.docker-build-images.outputs.built-images }}
+          BUILT_IMAGES: ${{ needs.docker-build-images.outputs.built-images }}
 
       - name: Sign container images with a key
         uses: dodopizza/cosign-sign-push-action@v1.0.13
