@@ -23,10 +23,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: install cosign
-        uses: sigstore/cosign-installer@v3.7.0
-        with:
-          cosign-release: 'v2.4.1'
 
   shellcheck:
     name: "Shell: Lint Shell Scripts"
@@ -93,11 +89,15 @@ jobs:
       - hadolint
       - docker-build-images
     steps:
+      - name: install cosign
+        uses: sigstore/cosign-installer@v3.7.0
+        with:
+          cosign-release: 'v2.4.1'
       - name: Sign container images with a key
         uses: dodopizza/cosign-sign-push-action@0.0.7
         with:
-          image-tags: ${{ steps.docker-build-images.outputs.built-image.tags }}
-          image-digest: ${{ steps.docker-build-images.outputs.built-image.digests[0] }}
+          image-tags: ${{ needs.docker-build-images.outputs.built-images.app.tags[0] }}
+          image-digest: ${{ needs.docker-build-images.outputs.built-images.app.digests[0] }}
           cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
           cosign-password: ''
 
