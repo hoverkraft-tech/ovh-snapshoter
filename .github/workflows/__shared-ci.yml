@@ -23,9 +23,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - uses: actions/checkout@v4
-      - name: install tools with asdf
-        uses: asdf-vm/actions/install@v3
+      - name: install cosign
+        uses: sigstore/cosign-installer@v3.7.0
+        with:
+          cosign-release: 'v2.4.1'
 
   shellcheck:
     name: "Shell: Lint Shell Scripts"
