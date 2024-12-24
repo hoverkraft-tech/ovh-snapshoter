@@ -104,8 +104,8 @@ jobs:
           echo "output5=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digests }}[]"
           echo "output6=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digests[0] }}"
 
-      - name: Prepare image-tags list
-        id: prepare-tags
+      - name: Prepare vars
+        id: prepare-vars
         uses: actions/github-script@v6
         with:
           script: |
