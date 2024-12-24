@@ -93,11 +93,22 @@ jobs:
         uses: sigstore/cosign-installer@v3.7.0
         with:
           cosign-release: 'v2.4.1'
+
+      - name: debug
+        run: |
+          set -ex
+          echo "output1=${{ needs.docker-build-images.outputs.built-images }}"
+          echo "output2=${{ fromJson(needs.docker-build-images.outputs.built-images) }}"
+          echo "output3=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags }}"
+          echo "output4=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }}"
+          echo "output5=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digest }}"
+          echo "output6=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digest[0] }}"
+
       - name: Sign container images with a key
-        uses: dodopizza/cosign-sign-push-action@0.0.7
+        uses: dodopizza/cosign-sign-push-action@v1.0.13
         with:
-          image-tags: ${{ needs.docker-build-images.outputs.built-images.app.tags[0] }}
-          image-digest: ${{ needs.docker-build-images.outputs.built-images.app.digests[0] }}
+          image-tags: ${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }}
+          image-digest: ${{ fromJson(needs.docker-build-images.outputs.built-images).app.digests[0] }}
           cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
           cosign-password: ''
 
