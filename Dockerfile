@@ -1,13 +1,15 @@
 FROM python:3.12-slim-bullseye AS builder
 
 # hadolint ignore=DL3008
-RUN set -eux; export DEBIAN_FRONTEND=noninteractive; \
+RUN --mount=type=cache,target=/var/cache/apt \
+    set -eux; export DEBIAN_FRONTEND=noninteractive; \
     apt-get update; \
     apt-get install -y --no-install-recommends build-essential gcc
 
 WORKDIR /build
 
 COPY requirements.txt requirements.txt
+
 # hadolint ignore=DL3042
 RUN --mount=type=cache,target=~/.cache/pip \
   pip install --user -r requirements.txt

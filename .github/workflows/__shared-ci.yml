@@ -111,7 +111,7 @@ jobs:
           script: |
             const builtImages = JSON.parse(process.env.BUILT_IMAGES);
             const tags = builtImages.app.images.join(',');
-            const digest = builtImages.app.digests[0];
+            const digest = builtImages.app.digests[0].includes('@') ? builtImages.app.digests[0].split('@')[1] : '';
             core.setOutput('tags', tags);
             core.setOutput('digest', digest);
         env:
