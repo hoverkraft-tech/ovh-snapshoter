@@ -112,7 +112,7 @@ jobs:
 
       - name: Prepare vars
         id: prepare-vars
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const builtImages = JSON.parse(process.env.BUILT_IMAGES);
