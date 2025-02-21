@@ -49,7 +49,7 @@ setuptools==75.6.0
 simplejson==3.19.2
 six==1.16.0
 smmap==5.0.1
-stevedore==5.3.0
+stevedore==5.4.1
 tzdata==2024.1
 urllib3==2.2.3
 wcwidth==0.2.13
