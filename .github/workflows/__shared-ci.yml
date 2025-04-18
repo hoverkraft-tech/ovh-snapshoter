@@ -54,7 +54,7 @@ jobs:
       - init
       - shellcheck
       - hadolint
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.18.0
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.26.0
     permissions:
       actions: write
       contents: read
