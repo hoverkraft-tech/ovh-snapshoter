@@ -96,7 +96,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: install cosign
-        uses: sigstore/cosign-installer@v3.7.0
+        uses: sigstore/cosign-installer@v3.9.0
         with:
           cosign-release: 'v2.4.1'
 
