@@ -16,7 +16,7 @@ owners:
   - name: Emilien Escalle
     email: emilien.escalle@escemi.com
 links:
-- name: homepage
-  url: https://github.com/hoverkraft-tech/ovh-snapshoter
-- name: default-values
-  url: https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml
+  - name: homepage
+    url: https://github.com/hoverkraft-tech/ovh-snapshoter
+  - name: default-values
+    url: https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml

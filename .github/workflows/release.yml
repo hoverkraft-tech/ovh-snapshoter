@@ -1,144 +1,106 @@
-name: 🚀 Release
+# Prepare committed chart versions, validate the dispatched tag, then publish.
+name: Release
 
 on:
+  # checkov:skip=CKV_GHA_7:Force overrides only the no-change plan, never validation or publication checks.
   workflow_dispatch:
+    inputs:
+      force:
+        description: Release even without changes
+        type: boolean
+        default: false
+  schedule:
+    - cron: "25 8 * * 1"
+
+permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: release-${{ github.repository }}
+  cancel-in-progress: false
 
 jobs:
-
-  check-branches:
-    name: Check branches
-    runs-on: self-hosted
-    steps:
-      - name: Check branch
-        run: |
-          if [[ "${{ github.ref_name }}" != "${{ github.event.repository.default_branch }}" ]]; then
-            echo "This action can only be run on the ${{ github.event.repository.default_branch }} branch"
-            exit 1
-          fi
-
-  update_release_draft:
-    name: Draft a new release
-    # we want to publish a new tag only if ci succeeds
-    needs: check-branches
-    permissions:
-      contents: write
-      pull-requests: write
-    runs-on: self-hosted
-    outputs:
-      latestRelease: ${{ steps.update_release_draft.outputs.tag_name }}
-    steps:
-      # create a new release
-      - id: update_release_draft
-        uses: release-drafter/release-drafter@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish: true
-          disable-autolabeler: true
-
-  ci:
-    needs: update_release_draft
-    name: Continuous Integration
-    uses: ./.github/workflows/__shared-ci.yml
-    with:
-      tag: ${{ needs.update_release_draft.outputs.latestRelease }}
+  prepare:
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/prepare-chart-release.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
     permissions:
       actions: write
+      contents: write
+      pull-requests: read
+    with:
+      path: helm/chart
+      update-app-version: true
+      force: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+      github-app-client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+    secrets:
+      github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}
+
+  validate:
+    needs: prepare
+    if: needs.prepare.outputs.status == 'ready'
+    uses: $/.github/workflows/__shared-ci.yml
+    permissions:
+      actions: read
+      attestations: write
       contents: read
       id-token: write
-      issues: read
+      issues: write
+      packages: write
+      pull-requests: write
+      security-events: write
+      statuses: write
+    with:
+      candidate-images: true
+    secrets:
+      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
+      OS_TENANT_ID: ${{ secrets.OS_TENANT_ID }}
+      OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
+      OS_USERNAME: ${{ secrets.OS_USERNAME }}
+      OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
+
+  promote:
+    needs: validate
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-promote-images.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+    permissions:
+      actions: read
+      attestations: read
+      contents: read
+      deployments: write
       packages: write
       pull-requests: read
-    secrets: inherit
+    with:
+      job-results: ${{ needs.validate.outputs.job-results }}
+    secrets:
+      oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
 
-  helm-publish:
-    name: "Helm: push chart to OCI registry"
-    needs: [update_release_draft, ci]
-    runs-on: self-hosted
+  release-chart:
+    name: Publish validated chart
+    needs: [validate, promote]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
     steps:
-      # Get a local copy of the code
-      - uses: actions/checkout@v4
-
-      # install tools with asdf
-      - name: install tools with asdf
-        uses: asdf-vm/actions/install@v3
-
-      - name: login to OCI registry
-        run: |
-          echo "+ login to OCI registry"
-          helm registry login ${OCI_REGISTRY} -u "${OCI_REGISTRY_USERNAME}" -p "${OCI_REGISTRY_PASSWORD}"
-        env:
-          OCI_REGISTRY: ghcr.io
-          OCI_REGISTRY_USERNAME: ${{ github.actor }}
-          OCI_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: update helm chart version
-        run: |
-          cd "${CHART_PATH}"
-          echo "+ update helm chart version"
-          sed -i "s/version: .*/version: ${VERSION}/g" Chart.yaml
-          sed -i "s/appVersion: .*/appVersion: ${VERSION}/g" Chart.yaml
-        env:
-          CHART_PATH: ${{github.workspace}}/helm/chart
-          VERSION: ${{ needs.update_release_draft.outputs.latestRelease }}
-
-      - name: update helm chart docs
-        uses: losisin/helm-docs-github-action@v1.3.5
+      - name: Publish and sign validated archive
+        id: publish
+        uses: hoverkraft-tech/ci-github-container/actions/helm/release-chart@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
         with:
-          chart-search-root: helm/chart
-          git-push: "false"
+          artifact-id: ${{ needs.validate.outputs.artifact-id }}
+          archive-name: ${{ needs.validate.outputs.archive-name }}
+          checksum: ${{ needs.validate.outputs.checksum }}
+          oci-repository: hoverkraft-tech/charts
 
-      - name: update helm values schema json
-        uses: losisin/helm-values-schema-json-action@v1.3.0
+  release:
+    needs: [prepare, release-chart]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    steps:
+      - uses: hoverkraft-tech/ci-github-publish/actions/release/create@80fa7011b27f49f2e04a19f932d36047d17a28f2 # 3.0.7
         with:
-          input: helm/chart/values.yaml
-
-      - uses: hoverkraft-tech/ci-github-common/actions/create-and-merge-pull-request@0.15.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: release-chart-${{ needs.update_release_draft.outputs.latestRelease }}
-          title: "ci: release chart ${{ needs.update_release_draft.outputs.latestRelease }}"
-          body: Release app and chart version ${{ needs.update_release_draft.outputs.latestRelease }}
-          commit-message: |
-            ci: release chart ${{ needs.update_release_draft.outputs.latestRelease }}
-
-            [skip ci]
-
-      - name: refresh main branch
-        run: |
-          set -x
-          echo "refreshing current branch"
-          git config --global user.name "${GITHUB_ACTOR}"
-          git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-          git fetch --all
-          git checkout ${BRANCH_NAME}
-          git pull --rebase
-          echo "commit id: $(git rev-parse --short HEAD)"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-
-      # Push the chart
-      - name: push helm chart to OCI registry
-        uses: hoverkraft-tech/helm-push@v5.0.0
-        with:
-          useOCIRegistry: true
-          username: ${{ env.OCI_REGISTRY_USERNAME }}
-          # NOTE: access-token is the password for OCI registry
-          #       cf https://github.com/bsord/helm-push/blob/5ec3320fb5720a0a5aa210d871999f2b836f2d97/entrypoint.sh#L37
-          access-token: ${{ env.OCI_REGISTRY_PASSWORD }}
-          registry-url: oci://${{ env.OCI_REGISTRY }}/${{ env.OCI_REGISTRY_CHART_REPOSITORY }}
-          chart-folder: helm/chart
-          force: true
-          update-dependencies: true
-          version: ${{ needs.update_release_draft.outputs.latestRelease }}
-          appVersion: ${{ needs.update_release_draft.outputs.latestRelease }}
-        env:
-          OCI_REGISTRY: ghcr.io
-          OCI_REGISTRY_USERNAME: ${{ github.actor }}
-          OCI_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          OCI_REGISTRY_CHART_REPOSITORY: 'hoverkraft-tech/charts'
+          tag: ${{ needs.prepare.outputs.tag }}
+          target-ref: ${{ github.sha }}
+          changelog-summary: ${{ format('{{"llmAuth":{0},"llmProvider":"openai"}}', toJSON(secrets.OPENAI_API_KEY)) }}

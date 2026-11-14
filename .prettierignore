@@ -1,0 +1,2 @@
+# Helm templates are rendered and validated by Helm and Kubeconform.
+**/templates/**
