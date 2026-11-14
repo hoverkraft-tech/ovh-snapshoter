@@ -1,8 +1,12 @@
 # .github/dependabot.yml
 version: 2
 updates:
-
   - package-ecosystem: "github-actions"
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: build
+      include: scope
     directories:
       - "/"
     open-pull-requests-limit: 3
@@ -11,9 +15,11 @@ updates:
     schedule:
       interval: "weekly"
       day: friday
-      time: '04:00'
+      time: "04:00"
 
   - package-ecosystem: "docker"
+    cooldown:
+      default-days: 7
     directory: "/"
     open-pull-requests-limit: 3
     labels:
@@ -21,9 +27,11 @@ updates:
     schedule:
       interval: "weekly"
       day: friday
-      time: '04:10'
+      time: "04:10"
 
   - package-ecosystem: "pip"
+    cooldown:
+      default-days: 7
     directory: "/"
     open-pull-requests-limit: 3
     labels:
@@ -31,4 +39,20 @@ updates:
     schedule:
       interval: "weekly"
       day: friday
-      time: '04:20'
+      time: "04:20"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: build
+      include: scope
+    schedule:
+      interval: "weekly"
+      day: friday
+      time: "04:30"
+    groups:
+      devcontainer-dependencies:
+        patterns:
+          - "*"

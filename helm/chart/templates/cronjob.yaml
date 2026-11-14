@@ -9,9 +9,21 @@ spec:
     spec:
       template:
         spec:
+          serviceAccountName: {{ include "chart.serviceAccountName" . }}
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
           containers:
           - name: snapshoter
             image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 14 }}
+            resources:
+              {{- toYaml .Values.resources | nindent 14 }}
             envFrom:
               - configMapRef:
                   name: {{ include "chart.fullname" . }}

@@ -3,60 +3,68 @@ name: Internal - Common Continuous Integration tasks
 on:
   workflow_call:
     inputs:
-      tag:
-        description: "Tag Version (semver - x.x.x)"
-        type: string
-        required: false
+      candidate-images:
+        description: Build temporary images for release validation
+        type: boolean
+        default: false
+    secrets:
+      OS_PASSWORD:
+        description: OpenStack password used by the dry-run test
+        required: true
+      OS_PROJECT_ID:
+        description: OpenStack project ID used by the dry-run test
+        required: true
+      OS_REGION_NAME:
+        description: OpenStack region used by the dry-run test
+        required: true
+      OS_TENANT_ID:
+        description: OpenStack tenant ID used by the dry-run test
+        required: true
+      OS_TENANT_NAME:
+        description: OpenStack tenant name used by the dry-run test
+        required: true
+      OS_USERNAME:
+        description: OpenStack user used by the dry-run test
+        required: true
+      OS_VOLUMES:
+        description: OpenStack volume selection used by the dry-run test
+        required: true
     outputs:
-      built-images:
-        value: ${{ jobs.docker-build-images.outputs.built-images }}
+      artifact-id:
+        description: Immutable artifact ID of the validated chart
+        value: ${{ jobs.chart-testing.outputs.artifact-id }}
+      archive-name:
+        description: Validated chart archive basename
+        value: ${{ jobs.chart-testing.outputs.archive-name }}
+      checksum:
+        description: SHA-256 of the validated chart archive
+        value: ${{ jobs.chart-testing.outputs.checksum }}
+      job-results:
+        description: Results and outputs of build, lint and image validation jobs
+        value: ${{ toJSON(jobs) }}
+
+permissions:
+  contents: read
 
 jobs:
-
-  init:
-    name: "prepare environment for jobs"
-    runs-on: self-hosted
-    steps:
-      # login to dockerhub to prevent limit rate
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-  shellcheck:
-    name: "Shell: Lint Shell Scripts"
-    runs-on: self-hosted
-    needs:
-      - init
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Lint Shell Scripts
-        run: |
-          shellcheck --shell=bash entrypoint.sh
-
-  hadolint:
-    name: "Docker: Lint Dockerfile"
-    runs-on: self-hosted
-    needs:
-      - init
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Lint Dockerfile
-        run: |
-          docker run --rm -i hadolint/hadolint < Dockerfile
+  lint:
+    uses: hoverkraft-tech/ci-github-common/.github/workflows/linter.yml@a86c260e07b11a7a0ca3b7205bbdba9908230917 # 4.3.0
+    permissions:
+      actions: read
+      contents: read
+      issues: write
+      packages: read
+      pull-requests: write
+      security-events: write
+      statuses: write
 
   docker-build-images:
     name: "Docker: Build Images"
-    needs:
-      - init
-      - shellcheck
-      - hadolint
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.18.0
+    needs: lint
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
     permissions:
-      actions: write
+      attestations: write
+      actions: read
       contents: read
       id-token: write
       issues: read
@@ -65,14 +73,11 @@ jobs:
     secrets:
       oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
     with:
-      runs-on: '["self-hosted"]'
-      oci-registry: ghcr.io
-      oci-registry-username: ${{ github.actor }}
+      candidate: ${{ inputs.candidate-images }}
       images: |
         [{
           "name": "app",
           "repository": "${{ github.repository }}",
-          "tag": "${{ inputs.tag }}",
           "dockerfile": "./Dockerfile",
           "platforms": [
             "linux/amd64",
@@ -80,132 +85,69 @@ jobs:
           ]
         }]
 
-  sign-images:
-    name: "Docker: Sign Images"
-    runs-on: self-hosted
-    needs:
-      - init
-      - shellcheck
-      - hadolint
-      - docker-build-images
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: install cosign
-        uses: sigstore/cosign-installer@v3.7.0
-        with:
-          cosign-release: 'v2.4.1'
-
-      - name: debug
-        run: |
-          set -ex
-          echo "output1=${{ needs.docker-build-images.outputs.built-images }}"
-          echo "output2=${{ fromJson(needs.docker-build-images.outputs.built-images) }}"
-          echo "output3=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags }}[]"
-          echo "output4=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }}"
-          echo "output5=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digests }}[]"
-          echo "output6=${{ fromJson(needs.docker-build-images.outputs.built-images).app.digests[0] }}"
-
-      - name: Prepare vars
-        id: prepare-vars
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const builtImages = JSON.parse(process.env.BUILT_IMAGES);
-            const tags = builtImages.app.images.join(',');
-            const digest = builtImages.app.digests[0].includes('@') ? builtImages.app.digests[0].split('@')[1] : '';
-            core.setOutput('tags', tags);
-            core.setOutput('digest', digest);
-        env:
-          BUILT_IMAGES: ${{ needs.docker-build-images.outputs.built-images }}
-
-      - name: Sign container images with a key
-        uses: dodopizza/cosign-sign-push-action@v1.0.13
-        with:
-          image-tags: ${{ steps.prepare-vars.outputs.tags }}
-          image-digest: ${{ steps.prepare-vars.outputs.digest }}
-          cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          cosign-password: ''
-
   chart-testing:
-    name: "Tests: helm chart"
-    runs-on: self-hosted
-    needs:
-      - init
-      - docker-build-images
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Install tools with asdf
-        uses: asdf-vm/actions/install@v3
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.1
-      - name: Run chart-testing (list-changed)
-        id: list-changed
-        run: |
-          changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
-          if [[ -n "$changed" ]]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Run chart-testing (lint)
-        if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint --target-branch ${{ github.event.repository.default_branch }}
-      - name: Create kind cluster
-        if: steps.list-changed.outputs.changed == 'true'
-        uses: helm/kind-action@v1.11.0
-      - name: Run chart-testing (install)
-        if: steps.list-changed.outputs.changed == 'true'
-        run: |
-          ct install \
-            --target-branch ${{ github.event.repository.default_branch }} \
-            --helm-extra-args "--set image.tag=${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }} --wait"
-      - name: show pods
-        if: steps.list-changed.outputs.changed == 'true'
-        run: |
-          sleep 10
-          kubectl get cronjob -n default
-          kubectl create job --from=cronjob/ovh-snapshoter -n default ovh-snapshoter-job
-          sleep 10
-          kubectl get pods -n default
+    needs: docker-build-images
+    name: Tests - Charts
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/helm-chart-ci.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+    permissions:
+      contents: read
+      packages: read
+    with:
+      path: helm/chart
+      upload-artifact: ${{ inputs.candidate-images }}
+      images: ${{ needs.docker-build-images.outputs.built-images }}
+      helm-set: |
+        image.tag=${{ fromJSON(needs.docker-build-images.outputs.built-images).app.tags[0] }}@${{ fromJSON(needs.docker-build-images.outputs.built-images).app.digest }}
 
-  app-testing:
+  test-images:
+    needs: docker-build-images
     name: "Tests: application"
-    runs-on: self-hosted
-    needs:
-      - init
-      - docker-build-images
+    runs-on: ubuntu-latest
+    outputs:
+      validated-images: ${{ needs.docker-build-images.outputs.built-images }}
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: Run tests
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check dry-run has no side effects
+        run: bash tests/dry-run.sh
+
+      - uses: hoverkraft-tech/ci-github-container/actions/docker/setup@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+        with:
+          setup-docker: false
+          setup-buildx: false
+          built-images: ${{ needs.docker-build-images.outputs.built-images }}
+          oci-registry-username: ${{ github.actor }}
+          oci-registry-password: ${{ github.token }}
+
+      - uses: hoverkraft-tech/ci-github-container/actions/docker/verify-images@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+        with:
+          images: ${{ toJSON(fromJSON(needs.docker-build-images.outputs.built-images).app.images) }}
+          certificate-identity: https://github.com/hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5
+
+      - name: Verify application dry-run output
+        shell: bash
         run: |
-          echo "OS_PASSWORD length: ${#OS_PASSWORD}"
-          echo "OS_PROJECT_ID length: ${#OS_PROJECT_ID}"
-          echo "OS_REGION_NAME length: ${#OS_REGION_NAME}"
-          echo "OS_TENANT_ID length: ${#OS_TENANT_ID}"
-          echo "OS_TENANT_NAME length: ${#OS_TENANT_NAME}"
-          echo "OS_USERNAME length: ${#OS_USERNAME}"
-          echo "OS_VOLUMES length: ${#OS_VOLUMES}"
-          docker run --rm -i  \
-            -e DRY_RUN=true   \
-            -e CLEANUP=true   \
-            -e OS_PASSWORD    \
-            -e OS_PROJECT_ID  \
+          set -euo pipefail
+          output="$(mktemp)"
+          trap 'rm -f "$output"' EXIT
+          docker run --rm -i \
+            -e DRY_RUN=true \
+            -e CLEANUP=true \
+            -e OS_PASSWORD \
+            -e OS_PROJECT_ID \
             -e OS_REGION_NAME \
-            -e OS_TENANT_ID   \
+            -e OS_TENANT_ID \
             -e OS_TENANT_NAME \
-            -e OS_USERNAME    \
-            -e OS_VOLUMES     \
-            ${IMAGE} > output
+            -e OS_USERNAME \
+            -e OS_VOLUMES \
+            "$IMAGE" > "$output"
+          grep -q "would create snapshot $(date +%Y%m%d)" "$output"
+          grep -q "would remove snapshot with id=" "$output"
         env:
           OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
           OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
@@ -214,17 +156,4 @@ jobs:
           OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
           OS_USERNAME: ${{ secrets.OS_USERNAME }}
           OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
-          IMAGE: ghcr.io/${{ github.repository }}/app:${{ fromJson(needs.docker-build-images.outputs.built-images).app.tags[0] }}
-      - name: show output
-        run: |
-          cat output
-      - name: check if snapshot was created
-        run: |
-          echo -n "check if snapshot was created: "
-          grep -q "would create snapshot $(date +%Y%m%d)" output && echo 'ok'
-      - name: check if old snapshot will be deleted
-        run: |
-          echo -n "check if old snapshot will be deleted: "
-          grep -q "would remove snapshot with id=" output && echo ok
-      - name: delete output file
-        run: rm output
+          IMAGE: ${{ fromJSON(needs.docker-build-images.outputs.built-images).app.images[0] }}

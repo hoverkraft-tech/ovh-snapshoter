@@ -9,54 +9,58 @@ DRY_RUN="${DRY_RUN:-false}"
 
 # functions
 check_var() {
-  if [ -z "${!1}" ]; then
-    echo "$1 is not set"
-    exit 1
-  fi
+	if [ -z "${!1:-}" ]; then
+		echo "$1 is not set"
+		exit 1
+	fi
 }
 
 snapshot-metadata() {
-  local key="$1"
-  local snapshot="$2"
-  # shellcheck disable=SC2086
-  cinder $CINDER_OPTS snapshot-metadata-show "$snapshot" | grep -E "^\| $key " | awk '{print $4}'
+	local key="$1"
+	local snapshot="$2"
+	# shellcheck disable=SC2086
+	cinder $CINDER_OPTS snapshot-metadata-show "$snapshot" | grep -E "^\| $key " | awk '{print $4}'
 }
 
 snapshot-mark-for-cleanup() {
-  local snapshot="$1"
-  # shellcheck disable=SC2086
-  cinder $CINDER_OPTS snapshot-metadata $snapshot set cleanup=true
+	local snapshot="$1"
+	if [ "$DRY_RUN" = "true" ]; then
+		echo "would mark snapshot $snapshot for cleanup"
+		return
+	fi
+	# shellcheck disable=SC2086
+	cinder $CINDER_OPTS snapshot-metadata $snapshot set cleanup=true
 }
 
 cleanup-pre() {
-  echo "removing all existing snapshots"
-  # shellcheck disable=SC2086
-  for snap in $(cinder $CINDER_OPTS snapshot-list --metadata createdBy=ovh-snapshoter \
-                  | grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' \
-                  | awk '{print $2}' ); do
-    vol="$(snapshot-metadata snapshotOf $snap)"
-    if (echo "${OS_VOLUMES}" | grep -q "$vol"); then
-      echo "Volume $vol is planned to be snapshoted again, marking snapshot $snap for cleanup"
-      snapshot-mark-for-cleanup $snap
-    else
-      echo "Volume $vol is not planned for backup again, skipping cleanup of snapshot $snap"
-    fi
-  done
+	echo "removing all existing snapshots"
+	# shellcheck disable=SC2086
+	for snap in $(cinder $CINDER_OPTS snapshot-list --metadata createdBy=ovh-snapshoter |
+		grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' |
+		awk '{print $2}'); do
+		vol="$(snapshot-metadata snapshotOf $snap)"
+		if (echo "${OS_VOLUMES}" | grep -q "$vol"); then
+			echo "Volume $vol is planned to be snapshotted again, marking snapshot $snap for cleanup"
+			snapshot-mark-for-cleanup $snap
+		else
+			echo "Volume $vol is not planned for backup again, skipping cleanup of snapshot $snap"
+		fi
+	done
 }
 
 cleanup-post() {
-  echo "removing snapshots marked for cleanup"
-  # shellcheck disable=SC2086
-  for snap in $(cinder $CINDER_OPTS snapshot-list --metadata cleanup=true \
-                  | grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' \
-                  | awk '{print $2}' ); do
-    if [ "$DRY_RUN" = "true" ]; then
-      echo "would remove snapshot with id=$snap"
-      continue
-    fi
-    echo "removing snapshot with id=$snap"
-    cinder $CINDER_OPTS snapshot-delete $snap
-  done
+	echo "removing snapshots marked for cleanup"
+	# shellcheck disable=SC2086
+	for snap in $(cinder $CINDER_OPTS snapshot-list --metadata cleanup=true |
+		grep -E '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' |
+		awk '{print $2}'); do
+		if [ "$DRY_RUN" = "true" ]; then
+			echo "would remove snapshot with id=$snap"
+			continue
+		fi
+		echo "removing snapshot with id=$snap"
+		cinder $CINDER_OPTS snapshot-delete $snap
+	done
 }
 
 # sanity checks
@@ -74,24 +78,24 @@ check_var "OS_VOLUMES"
 
 # main
 if [ "$CLEANUP" = "true" ]; then
-  cleanup-pre
+	cleanup-pre
 fi
 
 for vol in $(echo "$OS_VOLUMES" | tr ',' '\n'); do
-  now=$(date +%Y%m%d%H%M%S)
-  if [ "$DRY_RUN" = "true" ]; then
-    echo "would create snapshot ${now}-$vol"
-    continue
-  fi
-  echo "snapshoting vol $vol"
-  # shellcheck disable=SC2086
-  cinder snapshot-create \
-    --force=True \
-    --metadata createdBy=ovh-snapshoter snapshotOf=$vol snapshotedAt=${now} \
-    --name "${now}-$vol" "$vol"
+	now=$(date +%Y%m%d%H%M%S)
+	if [ "$DRY_RUN" = "true" ]; then
+		echo "would create snapshot ${now}-$vol"
+		continue
+	fi
+	echo "snapshotting vol $vol"
+	# shellcheck disable=SC2086
+	cinder snapshot-create \
+		--force=True \
+		--metadata createdBy=ovh-snapshoter snapshotOf=$vol snapshotedAt=${now} \
+		--name "${now}-$vol" "$vol"
 done
 
 # defer real cleanup of snapshots
 if [ "$CLEANUP" = "true" ]; then
-  cleanup-post
+	cleanup-post
 fi

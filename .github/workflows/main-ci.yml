@@ -13,15 +13,43 @@ permissions:
   contents: read
 
 jobs:
-
   ci:
     name: Continuous Integration
-    uses: ./.github/workflows/__shared-ci.yml
+    uses: $/.github/workflows/__shared-ci.yml
     permissions:
-      actions: write
+      attestations: write
+      actions: read
       contents: read
       id-token: write
-      issues: read
+      issues: write
       packages: write
-      pull-requests: read
-    secrets: inherit
+      pull-requests: write
+      security-events: write
+      statuses: write
+    secrets:
+      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
+      OS_TENANT_ID: ${{ secrets.OS_TENANT_ID }}
+      OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
+      OS_USERNAME: ${{ secrets.OS_USERNAME }}
+      OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
+
+  helm-docs:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: hoverkraft-tech/ci-github-container/actions/helm/generate-docs@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+        with:
+          working-directory: helm/chart
+          values-file: values.yaml
+          # GitHub signs squash merges; rebase cannot satisfy the signed-commit rule.
+          merge-method: squash
+          github-app-client-id: ${{ vars.CI_BOT_APP_CLIENT_ID }}
+          github-app-key: ${{ secrets.CI_BOT_APP_PRIVATE_KEY }}

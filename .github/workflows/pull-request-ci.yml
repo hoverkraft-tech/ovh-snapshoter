@@ -9,29 +9,28 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
-
-  pull-request-labeler:
-    name: Pull request labeler
-    runs-on: self-hosted
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - uses: release-drafter/release-drafter@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          disable-releaser: true
-
   ci:
     name: Continuous Integration
-    uses: ./.github/workflows/__shared-ci.yml
+    uses: $/.github/workflows/__shared-ci.yml
     permissions:
-      actions: write
+      attestations: write
+      actions: read
       contents: read
       id-token: write
-      issues: read
+      issues: write
       packages: write
-      pull-requests: read
-    secrets: inherit
+      pull-requests: write
+      security-events: write
+      statuses: write
+    secrets:
+      OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+      OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
+      OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
+      OS_TENANT_ID: ${{ secrets.OS_TENANT_ID }}
+      OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
+      OS_USERNAME: ${{ secrets.OS_USERNAME }}
+      OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
