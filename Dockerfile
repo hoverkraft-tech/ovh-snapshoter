@@ -27,15 +27,6 @@ FROM python:3.12-slim-trixie
 ENV PYTHONUNBUFFERED="1" \
     DRY_RUN="false" \
     CLEANUP="false" \
-    OS_AUTH_URL=https://auth.cloud.ovh.net/v3/ \
-    OS_IDENTITY_API_VERSION="3" \
-    OS_PROJECT_DOMAIN_NAME=Default \
-    OS_PROJECT_ID="" \
-    OS_REGION_NAME=GRA5 \
-    OS_TENANT_ID="" \
-    OS_TENANT_NAME="" \
-    OS_USER_DOMAIN_NAME=Default \
-    OS_VOLUMES="" \
     PATH=/opt/venv/bin:$PATH
 
 COPY --from=builder /opt/venv /opt/venv
