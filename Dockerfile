@@ -5,7 +5,7 @@ ARG UID=1000
 ARG GID=1000
 USER ${UID}:${GID}
 
-FROM python:3.12-slim-trixie AS builder
+FROM python:3.15-slim-trixie AS builder
 
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -22,7 +22,7 @@ RUN --mount=type=cache,target=~/.cache/pip \
   python -m venv /opt/venv \
   && /opt/venv/bin/pip install -r requirements.txt
 
-FROM python:3.12-slim-trixie
+FROM python:3.15-slim-trixie
 
 ENV PYTHONUNBUFFERED="1" \
     DRY_RUN="false" \
