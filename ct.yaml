@@ -1,3 +1,4 @@
+---
 chart-dirs:
   - helm
 charts:
