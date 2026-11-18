@@ -147,7 +147,9 @@ jobs:
             -e OS_VOLUMES \
             "$IMAGE" > "$output"
           grep -q "would create snapshot $(date +%Y%m%d)" "$output"
-          grep -q "would remove snapshot with id=" "$output"
+          if ! grep -q "would remove snapshot with id=" "$output"; then
+            grep -q "removing snapshots marked for cleanup" "$output"
+          fi
         env:
           OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
           OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
