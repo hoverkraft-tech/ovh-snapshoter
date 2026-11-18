@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ include "chart.fullname" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   schedule: {{ .Values.cronjob.schedule }}
   jobTemplate:
@@ -10,6 +11,7 @@ spec:
       template:
         spec:
           serviceAccountName: {{ include "chart.serviceAccountName" . }}
+          automountServiceAccountToken: false
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
             {{- toYaml . | nindent 12 }}

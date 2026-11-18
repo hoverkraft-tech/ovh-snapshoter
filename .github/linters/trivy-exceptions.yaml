@@ -1,0 +1,7 @@
+misconfigurations:
+  - id: KSV-0125
+    paths:
+      - helm/chart/templates/cronjob.yaml.tpl
+    statement: >
+      The image registry is configurable at deploy time and defaults to GHCR,
+      which is trusted for this project.
