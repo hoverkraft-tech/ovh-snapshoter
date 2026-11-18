@@ -1,7 +1,102 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
-  <rect width="1280" height="640" fill="#ffffff"/>
-  <rect x="64" y="64" width="1152" height="512" rx="24" fill="#f7f8fa" stroke="#d8dde4" stroke-width="2"/>
-  <image href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB3aWR0aD0iMjAyLjQzNzA5bW0iCiAgIGhlaWdodD0iNzAuMTE0NTg2bW0iCiAgIHZpZXdCb3g9IjAgMCAyMDIuNDM3MDkgNzAuMTE0NTg2IgogICB2ZXJzaW9uPSIxLjEiCiAgIGlkPSJzdmczNjYxIgogICB4bWw6c3BhY2U9InByZXNlcnZlIgogICBzb2RpcG9kaTpkb2NuYW1lPSJwcm9qZWN0LWxvZ28uc3ZnIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIxLjIuMiAoYjBhODQ4NjU0MSwgMjAyMi0xMi0wMSkiCiAgIHhtbG5zOmlua3NjYXBlPSJodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy9uYW1lc3BhY2VzL2lua3NjYXBlIgogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHNvZGlwb2RpOm5hbWVkdmlldwogICAgIGlkPSJuYW1lZHZpZXc0NyIKICAgICBwYWdlY29sb3I9IiNmZmZmZmYiCiAgICAgYm9yZGVyY29sb3I9IiMwMDAwMDAiCiAgICAgYm9yZGVyb3BhY2l0eT0iMC4yNSIKICAgICBpbmtzY2FwZTpzaG93cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICAgIGlua3NjYXBlOnBhZ2VjaGVja2VyYm9hcmQ9IjAiCiAgICAgaW5rc2NhcGU6ZGVza2NvbG9yPSIjZDFkMWQxIgogICAgIGlua3NjYXBlOmRvY3VtZW50LXVuaXRzPSJtbSIKICAgICBzaG93Z3JpZD0iZmFsc2UiCiAgICAgaW5rc2NhcGU6em9vbT0iMS42MzA1MzU1IgogICAgIGlua3NjYXBlOmN4PSI1MTEuMTgxNzciCiAgICAgaW5rc2NhcGU6Y3k9IjIwNi4zNzM5MiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjI0OTQiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iMTM3MSIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMjYyNiIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMzIiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMSIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiIC8+PGRlZnMKICAgICBpZD0iZGVmczM2NTgiPjxyZWN0CiAgICAgICB4PSIyNzUuNjM1MDciCiAgICAgICB5PSIyMC43MjU1OTkiCiAgICAgICB3aWR0aD0iNDYwLjkyMDgxIgogICAgICAgaGVpZ2h0PSI4My45NTM3NzMiCiAgICAgICBpZD0icmVjdDUxNDkiIC8+PC9kZWZzPjxnCiAgICAgaWQ9ImxheWVyMSIKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMC41NjE5NTgyNCwtMC4wODkwMTk4MikiPjxnCiAgICAgICBzdHlsZT0iY2xpcC1ydWxlOmV2ZW5vZGQ7ZmlsbC1ydWxlOmV2ZW5vZGQ7aW1hZ2UtcmVuZGVyaW5nOm9wdGltaXplUXVhbGl0eTtzaGFwZS1yZW5kZXJpbmc6Z2VvbWV0cmljUHJlY2lzaW9uO3RleHQtcmVuZGVyaW5nOmdlb21ldHJpY1ByZWNpc2lvbiIKICAgICAgIGlkPSJnNDczMCIKICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMjY0NTgzMzMsMCwwLDAuMjY0NTgzMzMsMC44OTQxNzI0NiwtMC4wNTUyMTcyNikiPjxnCiAgICAgICAgIGlkPSJnNDYzNiIgLz48cmVjdAogICAgICAgICBzdHlsZT0iZm9udC12YXJpYXRpb24tc2V0dGluZ3M6J29wc3onIDMyLCAnd2dodCcgOTAwO2ZpbGw6IzE5OThmZjtmaWxsLW9wYWNpdHk6MTtzdHJva2Utd2lkdGg6MTAuNTYzODtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46YmV2ZWw7c3Ryb2tlLWRhc2hhcnJheTpub25lO3BhaW50LW9yZGVyOm1hcmtlcnMgZmlsbCBzdHJva2UiCiAgICAgICAgIGlkPSJyZWN0OTYzIgogICAgICAgICB3aWR0aD0iMjQxLjM2ODM1IgogICAgICAgICBoZWlnaHQ9IjI0Ny44NjA4NCIKICAgICAgICAgeD0iNi4zMzg1MTcyIgogICAgICAgICB5PSI4LjEwNDIwMzIiCiAgICAgICAgIHJ5PSIxNy40ODEyNTYiIC8+PGcKICAgICAgICAgaWQ9Imc3MjgwIiAvPjxnCiAgICAgICAgIGlkPSJnNzI4NSI+PHJlY3QKICAgICAgICAgICBzdHlsZT0iZm9udC12YXJpYXRpb24tc2V0dGluZ3M6J29wc3onIDMyLCAnd2dodCcgOTAwO2NsaXAtcnVsZTpldmVub2RkO2ZpbGw6IzUwNjY5MDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6ZXZlbm9kZDtzdHJva2Utd2lkdGg6MTAuNTY0MTtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46YmV2ZWw7c3Ryb2tlLWRhc2hhcnJheTpub25lO3BhaW50LW9yZGVyOm1hcmtlcnMgZmlsbCBzdHJva2U7aW1hZ2UtcmVuZGVyaW5nOm9wdGltaXplUXVhbGl0eTtzaGFwZS1yZW5kZXJpbmc6Z2VvbWV0cmljUHJlY2lzaW9uO3RleHQtcmVuZGVyaW5nOmdlb21ldHJpY1ByZWNpc2lvbiIKICAgICAgICAgICBpZD0icmVjdDk2My02IgogICAgICAgICAgIHdpZHRoPSIyNDEuMzgwMTkiCiAgICAgICAgICAgaGVpZ2h0PSI0MS40Njg4MjIiCiAgICAgICAgICAgeD0iNi4zNjM1Mjg3IgogICAgICAgICAgIHk9IjIxNC43Nzg3NSIKICAgICAgICAgICByeT0iMTcuNDgxMjU2IiAvPjxwYXRoCiAgICAgICAgICAgc3R5bGU9ImZvbnQtdmFyaWF0aW9uLXNldHRpbmdzOidvcHN6JyAzMiwgJ3dnaHQnIDkwMDtmaWxsOiM1MDY2OTA7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlLXdpZHRoOjEwLjU2Mzg7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOmJldmVsO3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtwYWludC1vcmRlcjptYXJrZXJzIGZpbGwgc3Ryb2tlO2ltYWdlLXJlbmRlcmluZzphdXRvIgogICAgICAgICAgIGQ9Im0gMjQ3LjY3MjQ0LDIzMC44MTg5MyAtMC4wNDgzLC0xNS4zMjA5NCBjIC0wLjAyMiwtNi45ODMyMSAtMjcuMzUyOTcsLTE4LjkxNjkyIC00My4zNjE1NCwtMTcuOTIzNTQgLTYuNjgwMSwwLjQxNDUyIC0xNC41MzgxNywwLjM2MjgxIC00OS41MzEwNywxNC4xNjg3OCAtMjguMzU0NTQsMTEuMTg2ODkgLTM0Ljk2MTkzLC0zMC4yNjUyNiAtNzAuMDE1MTQ4LC03LjkyMTY2IC0yMC4yNjM0MTMsMTIuOTE2MjkgLTY1LjAyODk0NSwxMS43NDkzOCAtNDYuNDAyNDEzLC0xMS45MTg2IDMuODY0MDA1LC00LjkwOTg0IC0zMS45NTIyOTEsNi42MDIwMSAtMzEuOTg4MzYyNiwyNy4xMDY2NiBsIC0wLjAyMjE2NCwxMi41OTkyNyIKICAgICAgICAgICBpZD0icGF0aDU4MjUiCiAgICAgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjc3Nzc3NzYyIgLz48L2c+PC9nPjx0ZXh0CiAgICAgICB4bWw6c3BhY2U9InByZXNlcnZlIgogICAgICAgdHJhbnNmb3JtPSJzY2FsZSgwLjI2NDU4MzMzKSIKICAgICAgIGlkPSJ0ZXh0NTE0NyIKICAgICAgIHN0eWxlPSJmb250LXNpemU6NDIuNjY2N3B4O2ZvbnQtZmFtaWx5OkludGVyOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246J0ludGVyLCBAb3Bzej0zMi4wLHdnaHQ9OTAwJztmb250LXZhcmlhdGlvbi1zZXR0aW5nczonb3BzeicgMzIsICd3Z2h0JyA5MDA7d2hpdGUtc3BhY2U6cHJlO3NoYXBlLWluc2lkZTp1cmwoI3JlY3Q1MTQ5KTtmaWxsOiMwMDFkMjA7c3Ryb2tlLXdpZHRoOjEwLjU2Mzg7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOmJldmVsO3BhaW50LW9yZGVyOm1hcmtlcnMgZmlsbCBzdHJva2UiIC8+PHRleHQKICAgICAgIHhtbDpzcGFjZT0icHJlc2VydmUiCiAgICAgICBzdHlsZT0iZm9udC1zaXplOjI4LjQ3MjlweDtmb250LWZhbWlseTpJbnRlcjstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOidJbnRlciwgQG9wc3o9MzIuMCx3Z2h0PTkwMCc7Zm9udC12YXJpYXRpb24tc2V0dGluZ3M6J29wc3onIDMyLCAnd2dodCcgOTAwO2ZpbGw6IzAwMWQyMDtzdHJva2Utd2lkdGg6Ny4wNDk1NztzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46YmV2ZWw7cGFpbnQtb3JkZXI6bWFya2VycyBmaWxsIHN0cm9rZSIKICAgICAgIHg9IjczLjE5ODM0OSIKICAgICAgIHk9IjIyLjQ0NTY0MiIKICAgICAgIGlkPSJ0ZXh0NTE1NSIgLz48dGV4dAogICAgICAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIKICAgICAgIHN0eWxlPSJmb250LXNpemU6MTEuMjg4OXB4O2ZvbnQtZmFtaWx5OkludGVyOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246J0ludGVyLCBAb3Bzej0zMi4wLHdnaHQ9OTAwJztmb250LXZhcmlhdGlvbi1zZXR0aW5nczonb3BzeicgMzIsICd3Z2h0JyA5MDA7ZmlsbDojMDAxZDIwO3N0cm9rZS13aWR0aDoyLjc5NTAxO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpiZXZlbDtwYWludC1vcmRlcjptYXJrZXJzIGZpbGwgc3Ryb2tlIgogICAgICAgeD0iNzIuMTIwOTg3IgogICAgICAgeT0iNjQuMzAyMTM5IgogICAgICAgaWQ9InRleHQ1MjEzIj48dHNwYW4KICAgICAgICAgaWQ9InRzcGFuNTIxMSIKICAgICAgICAgc3R5bGU9InN0cm9rZS13aWR0aDoyLjc5NSIKICAgICAgICAgeD0iNzIuMTIwOTg3IgogICAgICAgICB5PSI2NC4zMDIxMzkiPkJ5IGhvdmVya3JhZnQ8L3RzcGFuPjwvdGV4dD48ZwogICAgICAgaWQ9Imc3MzciCiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMy44OTk4MDE4LDkuMDU0NTEyNikiPjx0ZXh0CiAgICAgICAgIHhtbDpzcGFjZT0icHJlc2VydmUiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MTguNzE2OXB4O2ZvbnQtZmFtaWx5OkludGVyOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246J0ludGVyLCBAb3Bzej0zMi4wLHdnaHQ9OTAwJztmb250LXZhcmlhdGlvbi1zZXR0aW5nczonb3BzeicgMzIsICd3Z2h0JyA5MDA7ZmlsbDojMDAxZDIwO3N0cm9rZS13aWR0aDo0LjYzNDA5O3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpiZXZlbDtwYWludC1vcmRlcjptYXJrZXJzIGZpbGwgc3Ryb2tlIgogICAgICAgICB4PSI3NS42NzU3OTciCiAgICAgICAgIHk9IjM3LjY1MTc4MyIKICAgICAgICAgaWQ9InRleHQ1MTU1LTkiPmxvZ288L3RleHQ+PC9nPjxnCiAgICAgICBpZD0iZzQ1MCIKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xLjgwNDgzMjksMC4wNTE0Mjg2MikiPjx0ZXh0CiAgICAgICAgIHhtbDpzcGFjZT0icHJlc2VydmUiCiAgICAgICAgIHN0eWxlPSJmb250LXNpemU6MjcuMjYycHg7Zm9udC1mYW1pbHk6SW50ZXI7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjonSW50ZXIsIEBvcHN6PTMyLjAsd2dodD05MDAnO2ZvbnQtdmFyaWF0aW9uLXNldHRpbmdzOidvcHN6JyAzMiwgJ3dnaHQnIDkwMDtmaWxsOiMwMDFkMjA7c3Ryb2tlLXdpZHRoOjYuNzQ5Nzc7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOmJldmVsO3BhaW50LW9yZGVyOm1hcmtlcnMgZmlsbCBzdHJva2UiCiAgICAgICAgIHg9IjczLjIyMiIKICAgICAgICAgeT0iMjMuMTM3OTkxIgogICAgICAgICBpZD0idGV4dDUxNTUtMiI+cHJvamVjdDwvdGV4dD48L2c+PC9nPjwvc3ZnPgo=" x="112" y="180" width="300" height="220" preserveAspectRatio="xMidYMid meet"/>
-  <text x="470" y="300" fill="#17191c" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700">OVH Snapshoter</text>
-  <text x="470" y="378" fill="#626a73" font-family="Arial, Helvetica, sans-serif" font-size="34">By hoverkraft</text>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1280"
+   height="640"
+   viewBox="0 0 202.43709 70.114586"
+   version="1.1"
+   id="svg3661"
+   xml:space="preserve"
+   sodipodi:docname="social-preview.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><rect
+     width="202.43709"
+     height="70.114586"
+     fill="#ffffff" /><sodipodi:namedview
+     id="namedview47"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.6305355"
+     inkscape:cx="511.18177"
+     inkscape:cy="206.37392"
+     inkscape:window-width="2494"
+     inkscape:window-height="1371"
+     inkscape:window-x="2626"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" /><defs
+     id="defs3658"><rect
+       x="275.63507"
+       y="20.725599"
+       width="460.92081"
+       height="83.953773"
+       id="rect5149" /></defs><g
+     id="layer1"
+     transform="translate(-0.56195824,-0.08901982)"><g
+       style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+       id="g4730"
+       transform="matrix(0.26458333,0,0,0.26458333,0.89417246,-0.05521726)"><g
+         id="g4636" /><rect
+         style="font-variation-settings:'opsz' 32, 'wght' 900;fill:#1998ff;fill-opacity:1;stroke-width:10.5638;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers fill stroke"
+         id="rect963"
+         width="241.36835"
+         height="247.86084"
+         x="6.3385172"
+         y="8.1042032"
+         ry="17.481256" /><g
+         id="g7280" /><g
+         id="g7285"><rect
+           style="font-variation-settings:'opsz' 32, 'wght' 900;clip-rule:evenodd;fill:#506690;fill-opacity:1;fill-rule:evenodd;stroke-width:10.5641;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers fill stroke;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+           id="rect963-6"
+           width="241.38019"
+           height="41.468822"
+           x="6.3635287"
+           y="214.77875"
+           ry="17.481256" /><path
+           style="font-variation-settings:'opsz' 32, 'wght' 900;fill:#506690;fill-opacity:1;stroke-width:10.5638;stroke-linecap:round;stroke-linejoin:bevel;stroke-dasharray:none;paint-order:markers fill stroke;image-rendering:auto"
+           d="m 247.67244,230.81893 -0.0483,-15.32094 c -0.022,-6.98321 -27.35297,-18.91692 -43.36154,-17.92354 -6.6801,0.41452 -14.53817,0.36281 -49.53107,14.16878 -28.35454,11.18689 -34.96193,-30.26526 -70.015148,-7.92166 -20.263413,12.91629 -65.028945,11.74938 -46.402413,-11.9186 3.864005,-4.90984 -31.952291,6.60201 -31.9883626,27.10666 l -0.022164,12.59927"
+           id="path5825"
+           sodipodi:nodetypes="cssssssc" /></g></g><text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text5147"
+       style="font-size:42.6667px;font-family:Inter;-inkscape-font-specification:'Inter, @opsz=32.0,wght=900';font-variation-settings:'opsz' 32, 'wght' 900;white-space:pre;shape-inside:url(#rect5149);fill:#001d20;stroke-width:10.5638;stroke-linecap:round;stroke-linejoin:bevel;paint-order:markers fill stroke" /><text
+       xml:space="preserve"
+       style="font-size:28.4729px;font-family:Inter;-inkscape-font-specification:'Inter, @opsz=32.0,wght=900';font-variation-settings:'opsz' 32, 'wght' 900;fill:#001d20;stroke-width:7.04957;stroke-linecap:round;stroke-linejoin:bevel;paint-order:markers fill stroke"
+       x="73.198349"
+       y="22.445642"
+       id="text5155" /><text
+       xml:space="preserve"
+       style="font-size:11.2889px;font-family:Inter;-inkscape-font-specification:'Inter, @opsz=32.0,wght=900';font-variation-settings:'opsz' 32, 'wght' 900;fill:#001d20;stroke-width:2.79501;stroke-linecap:round;stroke-linejoin:bevel;paint-order:markers fill stroke"
+       x="72.120987"
+       y="64.302139"
+       id="text5213"><tspan
+         id="tspan5211"
+         style="stroke-width:2.795"
+         x="72.120987"
+         y="64.302139">By hoverkraft</tspan></text><g
+       id="g737"
+       transform="translate(-3.8998018,9.0545126)"><text
+         xml:space="preserve"
+         style="font-size:18.7169px;font-family:Inter;-inkscape-font-specification:'Inter, @opsz=32.0,wght=900';font-variation-settings:'opsz' 32, 'wght' 900;fill:#001d20;stroke-width:4.63409;stroke-linecap:round;stroke-linejoin:bevel;paint-order:markers fill stroke"
+         x="75.675797"
+         y="37.651783"
+         id="text5155-9">Snapshoter</text></g><g
+       id="g450"
+       transform="translate(-1.8048329,0.05142862)"><text
+         xml:space="preserve"
+         style="font-size:27.262px;font-family:Inter;-inkscape-font-specification:'Inter, @opsz=32.0,wght=900';font-variation-settings:'opsz' 32, 'wght' 900;fill:#001d20;stroke-width:6.74977;stroke-linecap:round;stroke-linejoin:bevel;paint-order:markers fill stroke"
+         x="73.222"
+         y="23.137991"
+         id="text5155-2">OVH</text></g></g></svg>
