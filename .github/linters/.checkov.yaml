@@ -1,4 +1,4 @@
-# Deployment policies and rationale: docs/development/linting.md
+# Deployment policy exceptions for the Helm chart.
 # All other checks remain enabled, including image tags and secret detection.
 skip-check:
   # CPU requests are selected through values for the target workload and cluster.

@@ -4,7 +4,7 @@ Schedule snapshots of OpenStack Cinder volumes and clean up older snapshots afte
 
 [![Continuous Integration](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/main-ci.yml/badge.svg)](https://github.com/hoverkraft-tech/ovh-snapshoter/actions/workflows/main-ci.yml)
 [![Release](https://img.shields.io/github/v/release/hoverkraft-tech/ovh-snapshoter)](https://github.com/hoverkraft-tech/ovh-snapshoter/releases)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](docs/development/linting.md)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/hoverkraft-tech/ovh-snapshoter/issues)
 
 ## Prerequisites
 
@@ -21,12 +21,28 @@ helm upgrade --install ovh-snapshoter oci://ghcr.io/hoverkraft-tech/charts/ovh-s
   --values my-values.yaml
 ```
 
-See [usage and configuration](docs/usage/installation.md) for more details.
+To install from source, run:
+
+```sh
+helm dependency build helm/chart
+helm upgrade --install ovh-snapshoter ./helm/chart \
+  --namespace ovh-snapshoter --create-namespace \
+  --values my-values.yaml
+```
+
+Set OpenStack credentials and volume IDs under `config` in the values file.
+The job creates snapshots, marks the snapshots it created, and removes older
+snapshots after a successful creation. A failed creation stops cleanup.
+
+## Development
+
+Install Git, GNU Make, Docker with BuildKit, Helm, and kubectl.
+Run `make lint`, `make lint-fix`, or `make lint '[.]github/'` from the repository
+root. Open the repository in the dev container for the same tools and commands.
 
 ## Contributing
 
-Open an issue or pull request to discuss changes. The [contributor guide](docs/development/linting.md)
-describes the dev container and local lint commands.
+Open an issue or pull request to discuss changes.
 
 ## Maintainer
 
