@@ -139,11 +139,15 @@ jobs:
           docker run --rm -i \
             -e DRY_RUN=true \
             -e CLEANUP=true \
+            -e OS_AUTH_URL \
+            -e OS_IDENTITY_API_VERSION \
             -e OS_PASSWORD \
+            -e OS_PROJECT_DOMAIN_NAME \
             -e OS_PROJECT_ID \
             -e OS_REGION_NAME \
             -e OS_TENANT_ID \
             -e OS_TENANT_NAME \
+            -e OS_USER_DOMAIN_NAME \
             -e OS_USERNAME \
             -e OS_VOLUMES \
             "$IMAGE" > "$output"
@@ -152,11 +156,15 @@ jobs:
             grep -q "removing snapshots marked for cleanup" "$output"
           fi
         env:
+          OS_AUTH_URL: https://auth.cloud.ovh.net/v3
+          OS_IDENTITY_API_VERSION: "3"
           OS_PASSWORD: ${{ secrets.OS_PASSWORD }}
+          OS_PROJECT_DOMAIN_NAME: Default
           OS_PROJECT_ID: ${{ secrets.OS_PROJECT_ID }}
           OS_REGION_NAME: ${{ secrets.OS_REGION_NAME }}
           OS_TENANT_ID: ${{ secrets.OS_TENANT_ID }}
           OS_TENANT_NAME: ${{ secrets.OS_TENANT_NAME }}
+          OS_USER_DOMAIN_NAME: Default
           OS_USERNAME: ${{ secrets.OS_USERNAME }}
           OS_VOLUMES: ${{ secrets.OS_VOLUMES }}
           IMAGE: ${{ fromJSON(needs.docker-build-images.outputs.built-images).app.images[0] }}
