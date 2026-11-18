@@ -1,0 +1,81 @@
+# Only reviewed deployment policies and false positives are excepted.
+# No vulnerabilities or detected secrets are suppressed.
+misconfigurations:
+  - id: DS-0031
+    paths:
+      - Dockerfile
+    statement: OS_AUTH_URL is the public OVH authentication endpoint, not a credential.
+  - id: KSV-0001
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Privilege escalation policy belongs to the configured container security context.
+  - id: KSV-0003
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Capabilities are selected through the container security context.
+  - id: KSV-0004
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Capabilities are selected through the container security context.
+  - id: KSV-0011
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: CPU limits are selected through values for the target workload and cluster.
+  - id: KSV-0012
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: UID policy must match the selected image and existing volume ownership.
+  - id: KSV-0014
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Filesystem policy must match writable application paths and mounted storage.
+  - id: KSV-0015
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: CPU requests are selected through values for the target workload and cluster.
+  - id: KSV-0016
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Memory requests are selected through values for the target workload and cluster.
+  - id: KSV-0018
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Memory limits are selected through values for the target workload and cluster.
+  - id: KSV-0020
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: UID policy must match the selected image and existing volume ownership.
+  - id: KSV-0021
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: GID policy must match the selected image and existing volume ownership.
+  - id: KSV-0030
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: The seccomp profile must match the workload and cluster runtime.
+  - id: KSV-01010
+    paths:
+      - helm/chart/templates/configmap.yaml
+    statement:
+      This ConfigMap contains public endpoint, region, username and port settings; passwords remain
+      in Secret resources.
+  - id: KSV-0104
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: The seccomp profile must match the workload and cluster runtime.
+  - id: KSV-0106
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Capabilities are selected through the container security context.
+  - id: KSV-0110
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: The installer chooses the release namespace; scanners render in default.
+  - id: KSV-0118
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: Pod and container security contexts are deployment configuration.
+  - id: KSV-0125
+    paths:
+      - helm/chart/templates/cronjob.yaml
+    statement: The chart uses its documented upstream image registry, not the scanner allowlist.

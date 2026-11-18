@@ -26,23 +26,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "chart.serviceAccountName" . }}
-      # checkov:skip=CKV_K8S_10:CPU requests are deployment-specific.
-      # checkov:skip=CKV_K8S_11:CPU limits are deployment-specific.
-      # checkov:skip=CKV_K8S_12:Memory requests are deployment-specific.
-      # checkov:skip=CKV_K8S_13:Memory limits are deployment-specific.
-      # checkov:skip=CKV_K8S_20:Privilege escalation is controlled by the configurable container security context.
-      # checkov:skip=CKV_K8S_21:The installer chooses the release namespace.
-      # checkov:skip=CKV_K8S_22:Filesystem policy is controlled by the configurable container security context.
-      # checkov:skip=CKV_K8S_23:Container UID policy is configurable.
-      # checkov:skip=CKV_K8S_28:Capabilities are controlled by the configurable container security context.
-      # checkov:skip=CKV_K8S_29:Pod security context is configurable.
-      # checkov:skip=CKV_K8S_30:Container security context is configurable.
-      # checkov:skip=CKV_K8S_31:Seccomp policy is controlled by the configurable pod security context.
-      # checkov:skip=CKV_K8S_35:The application receives credentials from Kubernetes Secrets.
-      # checkov:skip=CKV_K8S_37:Capabilities are controlled by the configurable container security context.
-      # checkov:skip=CKV_K8S_38:Service account configuration is controlled by chart values.
-      # checkov:skip=CKV_K8S_40:Container UID policy is configurable.
-      # checkov:skip=CKV_K8S_43:The image repository supports versioned tags and configurable deployment digests.
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
