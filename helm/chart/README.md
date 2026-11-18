@@ -20,42 +20,53 @@ A Helm chart for ovh-snapshoter
 
 ## Values
 
-| Key                         | Type   | Default                                | Description |
-| --------------------------- | ------ | -------------------------------------- | ----------- |
-| affinity                    | object | `{}`                                   |             |
-| autoscaling.enabled         | bool   | `false`                                |             |
-| config.cleanup              | string | `"true"`                               |             |
-| config.dryRun               | string | `"false"`                              |             |
-| config.osAuthUrl            | string | `"https://auth.cloud.ovh.net/v3"`      |             |
-| config.osIdentityApiVersion | int    | `3`                                    |             |
-| config.osPassword           | string | `""`                                   |             |
-| config.osProjectDomainName  | string | `"Default"`                            |             |
-| config.osProjectId          | string | `""`                                   |             |
-| config.osRegionName         | string | `"GRA11"`                              |             |
-| config.osTenantId           | string | `""`                                   |             |
-| config.osTenantName         | string | `""`                                   |             |
-| config.osUserDomainName     | string | `"Default"`                            |             |
-| config.osUsername           | string | `""`                                   |             |
-| config.osVolumes            | list   | `[]`                                   |             |
-| cronjob.schedule            | string | `"0 0 * * *"`                          |             |
-| deployment.enabled          | bool   | `false`                                |             |
-| fullnameOverride            | string | `""`                                   |             |
-| image.pullPolicy            | string | `"IfNotPresent"`                       |             |
-| image.registry              | string | `"ghcr.io"`                            |             |
-| image.repository            | string | `"hoverkraft-tech/ovh-snapshoter/app"` |             |
-| image.tag                   | string | `""`                                   |             |
-| imagePullSecrets            | list   | `[]`                                   |             |
-| nameOverride                | string | `""`                                   |             |
-| nodeSelector                | object | `{}`                                   |             |
-| podAnnotations              | object | `{}`                                   |             |
-| podSecurityContext          | object | `{}`                                   |             |
-| replicaCount                | int    | `1`                                    |             |
-| resources                   | object | `{}`                                   |             |
-| securityContext             | object | `{}`                                   |             |
-| serviceAccount.annotations  | object | `{}`                                   |             |
-| serviceAccount.create       | bool   | `true`                                 |             |
-| serviceAccount.name         | string | `""`                                   |             |
-| tolerations                 | list   | `[]`                                   |             |
+| Key                                      | Type   | Default                                | Description |
+| ---------------------------------------- | ------ | -------------------------------------- | ----------- |
+| affinity                                 | object | `{}`                                   |             |
+| autoscaling.enabled                      | bool   | `false`                                |             |
+| config.cleanup                           | string | `"true"`                               |             |
+| config.dryRun                            | string | `"false"`                              |             |
+| config.osAuthUrl                         | string | `"https://auth.cloud.ovh.net/v3"`      |             |
+| config.osIdentityApiVersion              | int    | `3`                                    |             |
+| config.osPassword                        | string | `""`                                   |             |
+| config.osProjectDomainName               | string | `"Default"`                            |             |
+| config.osProjectId                       | string | `""`                                   |             |
+| config.osRegionName                      | string | `"GRA11"`                              |             |
+| config.osTenantId                        | string | `""`                                   |             |
+| config.osTenantName                      | string | `""`                                   |             |
+| config.osUserDomainName                  | string | `"Default"`                            |             |
+| config.osUsername                        | string | `""`                                   |             |
+| config.osVolumes                         | list   | `[]`                                   |             |
+| cronjob.schedule                         | string | `"0 0 * * *"`                          |             |
+| deployment.enabled                       | bool   | `false`                                |             |
+| fullnameOverride                         | string | `""`                                   |             |
+| image.pullPolicy                         | string | `"IfNotPresent"`                       |             |
+| image.registry                           | string | `"ghcr.io"`                            |             |
+| image.repository                         | string | `"hoverkraft-tech/ovh-snapshoter/app"` |             |
+| image.tag                                | string | `""`                                   |             |
+| imagePullSecrets                         | list   | `[]`                                   |             |
+| nameOverride                             | string | `""`                                   |             |
+| nodeSelector                             | object | `{}`                                   |             |
+| podAnnotations                           | object | `{}`                                   |             |
+| podSecurityContext.runAsGroup            | int    | `10001`                                |             |
+| podSecurityContext.runAsNonRoot          | bool   | `true`                                 |             |
+| podSecurityContext.runAsUser             | int    | `10001`                                |             |
+| podSecurityContext.seccompProfile.type   | string | `"RuntimeDefault"`                     |             |
+| replicaCount                             | int    | `1`                                    |             |
+| resources.limits.cpu                     | string | `"100m"`                               |             |
+| resources.limits.memory                  | string | `"128Mi"`                              |             |
+| resources.requests.cpu                   | string | `"10m"`                                |             |
+| resources.requests.memory                | string | `"32Mi"`                               |             |
+| securityContext.allowPrivilegeEscalation | bool   | `false`                                |             |
+| securityContext.capabilities.drop[0]     | string | `"ALL"`                                |             |
+| securityContext.readOnlyRootFilesystem   | bool   | `true`                                 |             |
+| securityContext.runAsGroup               | int    | `10001`                                |             |
+| securityContext.runAsNonRoot             | bool   | `true`                                 |             |
+| securityContext.runAsUser                | int    | `10001`                                |             |
+| serviceAccount.annotations               | object | `{}`                                   |             |
+| serviceAccount.create                    | bool   | `true`                                 |             |
+| serviceAccount.name                      | string | `""`                                   |             |
+| tolerations                              | list   | `[]`                                   |             |
 
 ---
 
