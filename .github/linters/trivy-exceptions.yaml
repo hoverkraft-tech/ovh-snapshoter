@@ -1,3 +1,4 @@
+---
 misconfigurations:
   - id: KSV-0125
     paths:

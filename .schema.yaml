@@ -1,3 +1,4 @@
+---
 # Required
 input:
   - helm/chart/values.yaml

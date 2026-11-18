@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: ovh-snapshoter
 description: A Helm chart for ovh-snapshoter

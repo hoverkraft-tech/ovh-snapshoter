@@ -1,3 +1,4 @@
+---
 # Prepare committed chart versions, validate the dispatched tag, then publish.
 name: Release
 

@@ -1,3 +1,4 @@
+---
 services:
   ovh-snapshoter:
     image: ovh-snapshoter
