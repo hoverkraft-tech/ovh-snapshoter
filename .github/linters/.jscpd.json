@@ -1,11 +1,4 @@
 {
 	"threshold": 0,
-	"minTokens": 100,
-	"ignore": [
-		"**/*.svg",
-		"**/*.lock",
-		"**/*.schema.json",
-		"**/.github/workflows/main-ci.yml",
-		"**/.github/workflows/pull-request-ci.yml"
-	]
+	"minTokens": 100
 }
