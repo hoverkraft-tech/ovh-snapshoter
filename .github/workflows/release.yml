@@ -104,4 +104,4 @@ jobs:
         with:
           tag: ${{ needs.prepare.outputs.tag }}
           target-ref: ${{ github.sha }}
-          changelog-summary: ${{ format('{{"llmAuth":{0},"llmProvider":"openai"}}', toJSON(secrets.OPENAI_API_KEY)) }}
+          changelog-summary: ${{ secrets.CHANGELOG_SUMMARY }}
