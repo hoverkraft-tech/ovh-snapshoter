@@ -6,8 +6,9 @@ home: https://github.com/hoverkraft-tech/ovh-snapshoter
 sources:
   - https://github.com/hoverkraft-tech/ovh-snapshoter
   - https://raw.githubusercontent.com/hoverkraft-tech/ovh-snapshoter/refs/heads/main/helm/chart/values.yaml
-keywords: ["ovh", "csi", "snapshoter"]
-icon: "https://raw.githubusercontent.com/kubernetes/community/master/icons/png/resources/unlabeled/deploy-128.png"
+keywords: [ "ovh", "csi", "snapshoter" ]
+icon: "https://raw.githubusercontent.com/kubernetes/community/master/icons/png/\
+  resources/unlabeled/deploy-128.png"
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -22,13 +23,13 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.4.10
+version: 0.4.11
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: 0.4.10
+appVersion: 0.4.11
 
 maintainers:
   - name: Frederic Leger
