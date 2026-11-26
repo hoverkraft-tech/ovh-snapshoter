@@ -62,7 +62,7 @@ jobs:
   docker-build-images:
     name: "Docker: Build Images"
     needs: lint
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@a5dc1ea7c1f4c2dffc3267c5be7304d01284f2ec # 4.2.1
     permissions:
       attestations: write
       actions: read
@@ -89,7 +89,7 @@ jobs:
   chart-testing:
     needs: docker-build-images
     name: Tests - Charts
-    uses: hoverkraft-tech/ci-github-container/.github/workflows/helm-chart-ci.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/helm-chart-ci.yml@a5dc1ea7c1f4c2dffc3267c5be7304d01284f2ec # 4.2.1
     permissions:
       contents: read
       packages: read
@@ -117,7 +117,7 @@ jobs:
       - name: Check dry-run has no side effects
         run: bash tests/dry-run.sh
 
-      - uses: hoverkraft-tech/ci-github-container/actions/docker/setup@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+      - uses: hoverkraft-tech/ci-github-container/actions/docker/setup@a5dc1ea7c1f4c2dffc3267c5be7304d01284f2ec # 4.2.1
         with:
           setup-docker: false
           setup-buildx: false
@@ -125,10 +125,10 @@ jobs:
           oci-registry-username: ${{ github.actor }}
           oci-registry-password: ${{ github.token }}
 
-      - uses: hoverkraft-tech/ci-github-container/actions/docker/verify-images@b055d6ce0f3a5e223615ad494d88d92e17af11e5 # 4.2.0
+      - uses: hoverkraft-tech/ci-github-container/actions/docker/verify-images@a5dc1ea7c1f4c2dffc3267c5be7304d01284f2ec # 4.2.1
         with:
           images: ${{ toJSON(fromJSON(needs.docker-build-images.outputs.built-images).app.images) }}
-          certificate-identity: https://github.com/hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@b055d6ce0f3a5e223615ad494d88d92e17af11e5
+          certificate-identity: https://github.com/hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@a5dc1ea7c1f4c2dffc3267c5be7304d01284f2ec
 
       - name: Verify application dry-run output
         shell: bash
