@@ -17,6 +17,8 @@ spec:
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml.tpl") . | sha256sum }}
+        checksum/config: {{ include (print $.Template.BasePath "/secret.yaml.tpl") . | sha256sum }}
       {{- end }}
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
