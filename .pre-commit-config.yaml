@@ -38,4 +38,4 @@ repos:
     rev: v2.6.1
     hooks:
       - id: helm-schema
-        args: ["-input", "values.yaml"]
+        args: ["-f", "values.yaml"]
