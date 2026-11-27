@@ -14,10 +14,12 @@ spec:
       {{- include "chart.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml.tpl") $ | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml.tpl") $ | sha256sum }}
       labels:
         {{- include "chart.selectorLabels" . | nindent 8 }}
     spec:

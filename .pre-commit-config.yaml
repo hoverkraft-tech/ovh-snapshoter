@@ -1,7 +1,7 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-merge-conflict
       - id: end-of-file-fixer
@@ -17,12 +17,12 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.25
+    rev: v0.1.30
     hooks:
       - id: helmlint
 
   - repo: https://github.com/jtyr/kubeconform-helm
-    rev: v0.1.17
+    rev: v0.3.0
     hooks:
       - id: kubeconform-helm
 
@@ -35,7 +35,7 @@ repos:
           - --chart-search-root=helm/chart
 
   - repo: https://github.com/losisin/helm-values-schema-json
-    rev: v1.6.4
+    rev: v2.6.1
     hooks:
       - id: helm-schema
-        args: ["-input", "values.yaml"]
+        args: ["-f", "values.yaml"]

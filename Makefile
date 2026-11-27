@@ -10,7 +10,9 @@ lint: ## Run the repository lint checks (optional FILTER=regex)
 	$(call run_linter,)
 
 lint-fix: ## Apply supported automatic fixes (optional FILTER=regex)
-	$(call run_linter,-e FIX_BIOME_FORMAT=true -e FIX_BIOME_LINT=true -e FIX_MARKDOWN=true -e FIX_MARKDOWN_PRETTIER=true -e FIX_YAML_PRETTIER=true -e FIX_NATURAL_LANGUAGE=true -e FIX_SHELL_SHFMT=true -e FIX_SPELL_CODESPELL=true -e FIX_PYTHON_RUFF=true -e FIX_PYTHON_RUFF_FORMAT=true)
+	$(call run_linter,-e FIX_BIOME_FORMAT=true -e FIX_BIOME_LINT=true -e FIX_MARKDOWN=true -e FIX_MARKDOWN_PRETTIER=true \
+	        -e FIX_YAML_PRETTIER=true -e FIX_NATURAL_LANGUAGE=true -e FIX_SHELL_SHFMT=true -e FIX_SPELL_CODESPELL=true \
+					-e FIX_PYTHON_RUFF=true -e FIX_PYTHON_RUFF_FORMAT=true -e FILTER_REGEX_EXCLUDE='(^|/)\.venv/' -e IGNORE_GITIGNORED_FILES='true')
 
 define run_linter
 	@set -eu; \
